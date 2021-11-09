@@ -44,47 +44,76 @@ const $dado14 = document.querySelector("dado14");
 const $dado15 = document.querySelector("dado15");
 const $dado16 = document.querySelector("dado16");
 
+const dado1 = ['a','a','e','e','g','n'];
+const dado2 = ['e','l','r','t','t','y'];
+const dado3 = ['a','o','o','t','t','ñ'];
+const dado4 = ['a','b','b','j','o','o'];
+const dado5 = ['e','h','r','t','v','w'];
+const dado6 = ['c','i','m','o','t','u'];
+const dado7 = ['d','i','s','t','t','y'];
+const dado8 = ['e','i','o','s','s','t'];
+const dado9 = ['d','e','l','r','v','y'];
+const dado10 = ['a','c','h','o','p','s'];
+const dado11 = ['h','i','m','n','u','q'];
+const dado12 = ['e','e','i','n','s','u'];
+const dado13 = ['e','e','g','h','n','ñ'];
+const dado14 = ['a','f','f','k','p','s'];
+const dado15 = ['h','l','n','n','r','z'];
+const dado16 = ['d','e','i','l','r','x'];
 
 const dados = [
 // AAEEGN, ELRTTY, AOOTTW, ABBJOO, 
-//dado1
-['a','a','e','e','g','n'], 
-//dado2
-['e','l','r','t','t','y'],
-//dado3
-['a','o','o','t','t','ñ'],
-//dado4
-['a','b','b','j','o','o'],
+dado1, 
+dado2,
+dado3,
+dado4,
 // EHRTVW, CIMOTU, DISTTY, EIOSST, 
-//dado5
-['e','h','r','t','v','w'],
-//dado6
-['c','i','m','o','t','u'],
-//dado7
-['d','i','s','t','t','y'],
-//dado8
-['e','i','o','s','s','t'],	
+dado5,
+dado6,
+dado7,
+dado8,	
 // DELRVY, ACHOPS, HIMNQuU, EEINSU, 
-//dado9
-['d','e','l','r','v','y'],
-//dado10
-['a','c','h','o','p','s'], 
-//dado11
-['h','i','m','n','u','q'], // Qu
-//dado12
-['e','e','i','n','s','u'],
+dado9,
+dado10, 
+dado11, // Qu. La q tiene que incluir la u
+dado12,
 // EEGHNW, AFFKPS, HLNNRZ, DEILRX
-//dado13
-['e','e','g','h','n','ñ'],
-//dado14
-['a','f','f','k','p','s'],
-//dado15
-['h','l','n','n','r','z'], 
-//dado16
-['d','e','i','l','r','x'], 
+dado13,
+dado14,
+dado15, 
+dado16, 
 //no sé si sea mejor en objeto, en array de arrays, o una clase, 
 //pero sí es importante que no sean completamente aleatorios, para que haya más vocales que consonantes
 ]
+
+
+//clases
+class Board {
+    constructor() {
+        this.x = 0;
+		this.y = 0;
+		this.width = $canvas.width;
+		this.height = $canvas.height;
+		this.image = new Image();
+		this.image.src = "../images/fondo-board.png";
+    }
+
+    draw() {
+		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+		}
+}
+
+class Dado {
+    constructor(image) {
+        this.width = $dado2.width;
+        this.height = $dado2.height;
+        this.image = new Image();
+        this.image.src = image;
+    }
+}
+
+
+
 
 function revolver(dado) {
 return Math.floor(Math.random() * dado.length);
