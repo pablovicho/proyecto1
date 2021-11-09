@@ -13,13 +13,15 @@ let lista = [];
 
 //variables globales
 const $start = document.querySelector("start");
-const $diccionario = require('diccionario');
+const $canvas = document.querySelector("canvas");
+const ctx = $canvas.getContext("2d");
+/*const $diccionario = require('diccionario');
   
 diccionario.readFile('diccionario.txt', (err, data) => {
     if (err) throw err;
   
     console.log(data.toString());
-})
+})*/
 
 //dados
 const $dado1 = document.querySelector("dado1");
