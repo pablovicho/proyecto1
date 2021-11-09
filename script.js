@@ -13,6 +13,13 @@ let lista = [];
 
 //variables globales
 const $start = document.querySelector("start");
+const $diccionario = require('diccionario');
+  
+diccionario.readFile('diccionario.txt', (err, data) => {
+    if (err) throw err;
+  
+    console.log(data.toString());
+})
 
 //dados
 const $dado1 = document.querySelector("dado1");
@@ -129,7 +136,7 @@ function revisarPalabra(palabra) {
 
 function listaPalabra(palabra) {
     //esto debe revisar si la palabra está en el diccionario Y si no se escribió ya anteriormente. 
- 
+ return palabra
 }
 
 function addPalabra(palabra) {
