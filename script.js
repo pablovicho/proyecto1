@@ -36,29 +36,46 @@ const $dado15 = document.querySelector("dado15");
 const $dado16 = document.querySelector("dado16");
 
 
-const dados = {
+const dados = [
 // AAEEGN, ELRTTY, AOOTTW, ABBJOO, 
-dado1: ['a','a','e','e','g','n'], 
-dado2: ['e','l','r','t','t','y'],
-dado3: ['a','o','o','t','t','ñ'],
-dado4: ['a','b','b','j','o','o'],
+//dado1
+['a','a','e','e','g','n'], 
+//dado2
+['e','l','r','t','t','y'],
+//dado3
+['a','o','o','t','t','ñ'],
+//dado4
+['a','b','b','j','o','o'],
 // EHRTVW, CIMOTU, DISTTY, EIOSST, 
-dado5: ['e','h','r','t','v','w'],
-dado6: ['c','i','m','o','t','u'],
-dado7: ['d','i','s','t','t','y'],
-dado8: ['e','i','o','s','s','t'],	
+//dado5
+['e','h','r','t','v','w'],
+//dado6
+['c','i','m','o','t','u'],
+//dado7
+['d','i','s','t','t','y'],
+//dado8
+['e','i','o','s','s','t'],	
 // DELRVY, ACHOPS, HIMNQuU, EEINSU, 
-dado9: ['d','e','l','r','v','y'],
-dado10: ['a','c','h','o','p','s'], 
-dado11: ['h','i','m','n','u','q'], // Qu
-dado12: ['e','e','i','n','s','u'],
+//dado9
+['d','e','l','r','v','y'],
+//dado10
+['a','c','h','o','p','s'], 
+//dado11
+['h','i','m','n','u','q'], // Qu
+//dado12
+['e','e','i','n','s','u'],
 // EEGHNW, AFFKPS, HLNNRZ, DEILRX
-dado13: ['e','e','g','h','n','ñ'],
-dado14: ['a','f','f','k','p','s'],
-dado15: ['h','l','n','n','r','z'], 
-dado16: ['d','e','i','l','r','x'], 
-//no sé si sea mejor en objeto, en array de arrays, o una clase
-}
+//dado13
+['e','e','g','h','n','ñ'],
+//dado14
+['a','f','f','k','p','s'],
+//dado15
+['h','l','n','n','r','z'], 
+//dado16
+['d','e','i','l','r','x'], 
+//no sé si sea mejor en objeto, en array de arrays, o una clase, 
+//pero sí es importante que no sean completamente aleatorios, para que haya más vocales que consonantes
+]
 
 function revolver(dado) {
 return Math.floor(Math.random() * dado.length);
@@ -66,32 +83,60 @@ return Math.floor(Math.random() * dado.length);
 }
 
 function revolverDados() {
-    $dado1 = revolver()
+    $dado1 = revolver(dados[0]);
+    $dado2 = revolver(dados[1]);
+    $dado3 = revolver(dados[2]);
+    $dado4 = revolver(dados[3]);
+
+    $dado5 = revolver(dados[4]);
+    $dado6 = revolver(dados[5]);
+    $dado7 = revolver(dados[6]);
+    $dado8 = revolver(dados[7]);
+    
+    $dado9 = revolver(dados[8]);
+    $dado10 = revolver(dados[9]);
+    $dado11 = revolver(dados[10]);
+    $dado12 = revolver(dados[11]);
+    
+    $dado13 = revolver(dados[12]);
+    $dado14 = revolver(dados[13]);
+    $dado15 = revolver(dados[14]);
+    $dado16 = revolver(dados[15]);
+    
 //esto debería realizar la función revolver para todos los dados
 }
 
-function mezclarDados() {
+function mezclarDados(dados) {
+    return Math.floor(Math.random() * dados.length);
     //esto debería poner todos los dados al azar. 
     //tal vez no sea necesario, y en su lugar sea mejor usar los dados fijos. 
-    //¿Pero no sería mejor en este caso usar todas las letras en cada dado? 
+    //¿Pero no sería mejor en este caso usar todas las letras en cada dado? pero así las vocales salen muy poquito
 }
 
-function armarPalabra() {
+function armarPalabra(click) {
     //esto debe juntar la elección de cada letra en orden
+    palabra.push(click);
 }
 
-function addPalabra() {
+function revisarPalabra(palabra) {
+    forEach((palabra.split("").join("")) = (letra) => {
+        
+    });
+    //esto debe revisar si cada letra está concatenada a la anterior Y si no se usó el mismo dado para la palabra
+    //mi problema es que no quiero la palabra misma ni sus letras, sino los botones que se usaron
+    }
+    
+
+function listaPalabra(palabra) {
+    //esto debe revisar si la palabra está en el diccionario Y si no se escribió ya anteriormente. 
+ 
+}
+
+function addPalabra(palabra) {
     //¿qué pasa con las ñ en una función? seguro trae problemas en algunos navegadores
     //esto debe ser un botón que invoca revisarPalabra y listaPalabra
-}
-
-function revisarPalabra() {
-    //esto debe revisar si cada letra está concatenada a la anterior Y si no se usó el mismo dado para la palabra
-}
-
-function listaPalabra() {
-    //esto debe revisar si la palabra está en el diccionario Y si no se escribió ya anteriormente. 
     //Si pasa el checklist, entonces sumarla a una lista nueva 
+    return revisarPalabra(palabra) && listaPalabra(palabra) ? lista.push(palabra) : null;
 }
 
 function start() {
