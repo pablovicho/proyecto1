@@ -44,47 +44,6 @@ const $dado14 = document.querySelector("dado14");
 const $dado15 = document.querySelector("dado15");
 const $dado16 = document.querySelector("dado16");
 
-const dado1 = ['a','a','e','e','g','n'];
-const dado2 = ['e','l','r','t','t','y'];
-const dado3 = ['a','o','o','t','t','ñ'];
-const dado4 = ['a','b','b','j','o','o'];
-const dado5 = ['e','h','r','t','v','w'];
-const dado6 = ['c','i','m','o','t','u'];
-const dado7 = ['d','i','s','t','t','y'];
-const dado8 = ['e','i','o','s','s','t'];
-const dado9 = ['d','e','l','r','v','y'];
-const dado10 = ['a','c','h','o','p','s'];
-const dado11 = ['h','i','m','n','u','q'];
-const dado12 = ['e','e','i','n','s','u'];
-const dado13 = ['e','e','g','h','n','ñ'];
-const dado14 = ['a','f','f','k','p','s'];
-const dado15 = ['h','l','n','n','r','z'];
-const dado16 = ['d','e','i','l','r','x'];
-
-const dados = [
-// AAEEGN, ELRTTY, AOOTTW, ABBJOO, 
-dado1, 
-dado2,
-dado3,
-dado4,
-// EHRTVW, CIMOTU, DISTTY, EIOSST, 
-dado5,
-dado6,
-dado7,
-dado8,	
-// DELRVY, ACHOPS, HIMNQuU, EEINSU, 
-dado9,
-dado10, 
-dado11, // Qu. La q tiene que incluir la u
-dado12,
-// EEGHNW, AFFKPS, HLNNRZ, DEILRX
-dado13,
-dado14,
-dado15, 
-dado16, 
-//no sé si sea mejor en objeto, en array de arrays, o una clase, 
-//pero sí es importante que no sean completamente aleatorios, para que haya más vocales que consonantes
-]
 
 
 //clases
@@ -95,7 +54,7 @@ class Board {
 		this.width = $canvas.width;
 		this.height = $canvas.height;
 		this.image = new Image();
-		this.image.src = "../images/fondo-board.png";
+		this.image.src = "imagenes/fondo-board.png";
     }
 
     draw() {
@@ -104,44 +63,89 @@ class Board {
 }
 
 class Dado {
-    constructor(image) {
-        this.width = $dado2.width;
-        this.height = $dado2.height;
+    constructor(array, imageurl, element) {
+        this.array = array;
+        this.element = element;
         this.image = new Image();
-        this.image.src = image;
+        this.image.src = "imagenes/empty-dice.png"
+        this.imageurl = imageurl;   
     }
+
+    draw() {
+        ctx.drawImage(this.image, 0, 0, 10, 10);
+    }
+
+    revolver(array) {
+        let random = Math.floor(Math.random() * array.length);
+        return array[random];
+        //esto regresa un número del 0 al 5, que se va a usar para elegir una letra de cada dado
+        //sin embargo, necesito asignar a cada una de estas letras una respectiva imagen
+        }
+
+   // newImage(element,imageurl) {
+     //       element.style.backgroundImage = "url("+imageurl+")";
+       //  }
 }
 
+//instancias
+
+const dado1 = new Dado(['a','a','e','e','g','n'], "/imagenes/empty-dice.png", $dado1);
+const dado2 = new Dado(['e','l','r','t','t','y'], "/imagenes/empty-dice.png", $dado2);
+const dado3 = new Dado(['a','o','o','t','t','ñ'], "/imagenes/empty-dice.png", $dado3);
+const dado4 = new Dado(['a','b','b','j','o','o'], "/imagenes/empty-dice.png", $dado4);
+
+const dado5 = new Dado(['e','h','r','t','v','w'], "/imagenes/empty-dice.png", $dado5);
+const dado6 = new Dado(['c','i','m','o','t','u'], "/imagenes/b.png", $dado6);
+const dado7 = new Dado(['d','i','s','t','t','y'], "/imagenes/o.png", $dado7);
+const dado8 = new Dado(['e','i','o','s','s','t'], "/imagenes/g.png", $dado8);
+
+const dado9 = new Dado(['d','e','l','r','v','y'], "/imagenes/g.png", $dado9);
+const dado10 = new Dado(['a','c','h','o','p','s'], "/imagenes/l.png", $dado10);
+const dado11 = new Dado(['h','i','m','n','u','q'], "/imagenes/e.png", $dado11);
+const dado12 = new Dado(['e','e','i','n','s','u'], "/imagenes/empty-dice.png", $dado12);
+
+const dado13 = new Dado(['e','e','g','h','n','ñ'], "/imagenes/empty-dice.png", $dado13);
+const dado14 = new Dado(['a','f','f','k','p','s'], "/imagenes/empty-dice.png", $dado14);
+const dado15 = new Dado(['h','l','n','n','r','z'], "/imagenes/empty-dice.png", $dado15);
+const dado16 = new Dado(['d','e','i','l','r','x'], "/imagenes/empty-dice.png", $dado16);
+
+const dados = [[dado1, dado2, dado3, dado4], // AAEEGN, ELRTTY, AOOTTW, ABBJOO, 
+[dado5,dado6, dado7, dado8], // EHRTVW, CIMOTU, DISTTY, EIOSST, 
+[dado9, dado10, dado11, dado12], // DELRVY, ACHOPS, HIMNQuU, EEINSU, 
+[dado13, dado14, dado15, dado16, ]]; // EEGHNW, AFFKPS, HLNNRZ, DEILRX
+
+//no sé si sea mejor en objeto, en array de arrays, o una clase, 
+//pero sí es importante que no sean completamente aleatorios, para que haya más vocales que consonantes
+//me preocupa que se repitan tanto estas variables. no me parece óptimo
 
 
 
-function revolver(dado) {
-return Math.floor(Math.random() * dado.length);
-//esto regresa un número del 0 al 5, que se va a usar para elegir una letra de cada dado
-}
 
 function revolverDados() {
-    $dado1 = revolver(dados[0]);
-    $dado2 = revolver(dados[1]);
-    $dado3 = revolver(dados[2]);
-    $dado4 = revolver(dados[3]);
+   
+    $dado1 = dado1.revolver(dados[0]);
+    $dado2 = dado2.revolver(dados[1]);
+    $dado3 = dado3.revolver(dados[2]);
+    $dado4 = dado4.revolver(dados[3]);
 
-    $dado5 = revolver(dados[4]);
-    $dado6 = revolver(dados[5]);
-    $dado7 = revolver(dados[6]);
-    $dado8 = revolver(dados[7]);
+    $dado5 = dado5.revolver(dados[4]);
+    $dado6 = dado6.revolver(dados[5]);
+    $dado7 = dado7.revolver(dados[6]);
+    $dado8 = dado8.revolver(dados[7]);
     
-    $dado9 = revolver(dados[8]);
-    $dado10 = revolver(dados[9]);
-    $dado11 = revolver(dados[10]);
-    $dado12 = revolver(dados[11]);
+    $dado9 = dado9.revolver(dados[8]);
+    $dado10 = dado10.revolver(dados[9]);
+    $dado11 = dado11.revolver(dados[10]);
+    $dado12 = dado12.revolver(dados[11]);
     
-    $dado13 = revolver(dados[12]);
-    $dado14 = revolver(dados[13]);
-    $dado15 = revolver(dados[14]);
-    $dado16 = revolver(dados[15]);
+    $dado13 = dado13.revolver(dados[12]);
+    $dado14 = dado14.revolver(dados[13]);
+    $dado15 = dado15.revolver(dados[14]);
+    $dado16 = dado16.revolver(dados[15]);
     
 //esto debería realizar la función revolver para todos los dados
+//sin embargo, es repetitivo, y debería poder usar la clase dado para crearlo
+//también debería ser intuitivo el usar la imagen que tenga asignada
 }
 
 function mezclarDados(dados) {
@@ -187,3 +191,10 @@ function finish() {
     //cuando termine la cuenta regresiva, esto debe mostrar el score, la lista de palabras que lograste, 
     //y (de ser posible) la lista de palabras posibles con esa configuración.
 }
+
+
+window.addEventListener('load', (event) => {
+    let board = new Board();
+    board.draw();
+    dado1.draw("/imagenes/empty-dice.png", $dado1);
+});

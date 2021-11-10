@@ -20,74 +20,77 @@
       <h1>Boggle</h1>
     </header>
     <div id="cuerpo">
-      <canvas id="canvas" width="500" height="700">
+      <canvas id="canvas" width="500" height="700" background-image="imagenes/fondo-board.png">
 <!--row1-->
-        <div id="row1" class="grid-row">
-          <div class="dado col-3">
-            <span id="dado 1"></span>
+        <div id="row1" class="grid-row" style="height: 40px;">
+          <div id="dado1" class="dado col-3" style="height: 40px;">
+            <img src="/imagenes/empty-dice.png" alt="" />
           </div>
           <div class="dado col-3">
-            <span id="dado2"></span>
+            <img src="/imagenes/empty-dice.png" alt="" id="dado2"/>
           </div>
           <div class="dado col-3">
-            <span id="dado3"></span>
+            <img src="/imagenes/empty-dice.png" alt="" id="dado3"/>
           </div>
           <div class="dado col-3">
-            <span id="dado4"></span>
+            <img src="/imagenes/empty-dice.png" id="dado4"/>
           </div>
         </div>
 <!--row2-->
         <div id="row2" class="grid-row">
           <div class="dado col-3">
-            <span id="dado5"></span>
+            <img src="/imagenes/empty-dice.png" alt="" id="dado5"/>
           </div>
           <div class="dado col-3">
-            <span id="dado6"></span>
+            <img src="/imagenes/b.png" alt="" id="dado6"/>
           </div>
           <div class="dado col-3">
-            <span id="dado7"></span>
+            <img src="/imagenes/o.png" alt="" id="dado7"/>
           </div>
           <div class="dado col-3">
-            <span id="dado8"></span>
+            <img src="/imagenes/g.png" alt="" id="dado8"/>
           </div>
         </div>
 <!--row3-->
         <div id="row3" class="grid-row">
           <div class="dado col-3">
-            <span id="dado9"></span>
+            <img src="/imagenes/g.png" alt="" id="dado9"/>
           </div>
           <div class="dado col-3">
-            <span id="dado10"></span>
+            <img src="/imagenes/l.png" alt="" id="dado10"/>
           </div>
           <div class="dado col-3">
-            <span id="dado11"></span>
+            <img src="/imagenes/e.png" alt="" id="dado11"/>
           </div>
           <div class="dado col-3">
-            <span id="dado12"></span>
+            <img src="/imagenes/empty-dice.png" alt="" id="dado12"/>
           </div>
         </div>
 <!--row4-->
         <div id="row4" class="grid-row">
           <div class="dado col-3">
-            <span id="dado13"></span>
+            <img src="/imagenes/empty-dice.png" alt="" id="dado13"/>
           </div>
           <div class="dado col-3">
-            <span id="dado14"></span>
+            <img src="/imagenes/empty-dice.png" alt="" id="dado14"/>
           </div>
           <div class="dado col-3">
-            <span id="dado15"></span>
+            <img src="/imagenes/empty-dice.png" alt="" id="dado15"/>
           </div>
           <div class="dado col-3">
-            <span id="dado16"></span>
+            <img src="/imagenes/empty-dice.png" alt="" id="dado16"/>
           </div>
         </div>
+         
+    
       </canvas>
+
+         <!--start-->
+         <button id="start"></button>
+
       </div>
 
-    <!--start-->
-    <aside>
-      <button id="start"></button>
-    </aside>
+
 
     <!--bootstrap-->
     <script
