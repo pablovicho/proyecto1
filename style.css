@@ -1,5 +1,13 @@
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local('IndieFlower-Regular'), url(/fonts/IndieFlower-Regular.ttf) format('ttf');
+  }
+
 #canvas {
-    background-image: url("/imagenes/fondo-board.png");
+    background-image: url("/imagenes/portada.png");
     background-size: cover;
     border-radius: 5%;
 }
@@ -7,7 +15,8 @@
 .container {
     display: flex;
     align-items: center;
-    margin-left: 132px;
+    justify-content: space-between;
+    margin-right: 500px;
     margin-top: 10px;
 }
 
