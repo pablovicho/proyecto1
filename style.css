@@ -4,3 +4,19 @@
     border-radius: 5%;
 }
 
+.container {
+    display: flex;
+    align-items: center;
+    margin-left: 132px;
+    margin-top: 10px;
+}
+
+#start {
+        height: 80px;
+    width: 200px;
+}
+
+#start > button {
+    font-size: 35px;
+    border-radius: 8%;
+}

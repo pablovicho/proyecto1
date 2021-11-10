@@ -10,6 +10,8 @@ esto me permite quitar acentos
 //contadores
 let score = 0;
 let lista = [];
+let intervalId;
+let reloj = 6;
 
 //variables globales
 const $start = document.querySelector("start");
@@ -27,7 +29,7 @@ diccionario.readFile('diccionario.txt', (err, data) => {
 
 //dados
 const $dado1 = document.querySelector("dado1");
-const $dado2 = document.querySelector("dado2");
+/*const $dado2 = document.querySelector("dado2");
 const $dado3 = document.querySelector("dado3");
 const $dado4 = document.querySelector("dado4");
 
@@ -44,7 +46,7 @@ const $dado12 = document.querySelector("dado12");
 const $dado13 = document.querySelector("dado13");
 const $dado14 = document.querySelector("dado14");
 const $dado15 = document.querySelector("dado15");
-const $dado16 = document.querySelector("dado16");
+const $dado16 = document.querySelector("dado16");*/
 
 
 
@@ -68,11 +70,16 @@ class Dado {
         this.array = array;
         this.element = element;
         this.image = new Image();
-        this.imageurl = imageurl;   
+        this.imageurl = imageurl; 
     }
 
-    draw() {
-        ctx.drawImage(this.image, 0, 0, 10, 10);
+    draw(source) {
+
+        if(source) {
+        ctx.drawImage(source, 0, 0, 10, 10);
+        
+    }
+    else {(source = "/imagenes/empty-dice.png")}
     }
 
     revolver(array) {
@@ -89,7 +96,7 @@ class Dado {
 
 //instancias
 
-const dado1 = new Dado(['a','a','e','e','g','n'], "/imagenes/empty-dice.png", $dado1);
+/*
 const dado2 = new Dado(['e','l','r','t','t','y'], "/imagenes/empty-dice.png", $dado2);
 const dado3 = new Dado(['a','o','o','t','t','ñ'], "/imagenes/empty-dice.png", $dado3);
 const dado4 = new Dado(['a','b','b','j','o','o'], "/imagenes/empty-dice.png", $dado4);
@@ -108,7 +115,7 @@ const dado13 = new Dado(['e','e','g','h','n','ñ'], "/imagenes/empty-dice.png", 
 const dado14 = new Dado(['a','f','f','k','p','s'], "/imagenes/empty-dice.png", $dado14);
 const dado15 = new Dado(['h','l','n','n','r','z'], "/imagenes/empty-dice.png", $dado15);
 const dado16 = new Dado(['d','e','i','l','r','x'], "/imagenes/empty-dice.png", $dado16);
-
+*/
 const dados = [[dado1, dado2, dado3, dado4], // AAEEGN, ELRTTY, AOOTTW, ABBJOO, 
 [dado5,dado6, dado7, dado8], // EHRTVW, CIMOTU, DISTTY, EIOSST, 
 [dado9, dado10, dado11, dado12], // DELRVY, ACHOPS, HIMNQuU, EEINSU, 
@@ -185,16 +192,56 @@ function start() {
     //esto debe crear un nuevo tablero, una nueva lista, un nuevo score,
     //invocar las funciones de revolver, revolverDados y mezclarDados,
     //e iniciar la cuenta regresiva con finish
-}
+    //checkDice();
 
-function finish() {
-    //cuando termine la cuenta regresiva, esto debe mostrar el score, la lista de palabras que lograste, 
-    //y (de ser posible) la lista de palabras posibles con esa configuración.
-}
+	// 2. Limpiar el canvas
 
-
-window.addEventListener('load', (event) => {
+	ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+	// 3. Dibujar los elementos
     let board = new Board();
     board.draw();
-    dado1.draw("/imagenes/empty-dice.png", $dado1);
-});
+	let dado1 = new Dado();
+    dado1.draw();
+
+    setTimeout(() => {
+        (endGame());
+    }, 6*1000)
+  //checkCollitions();
+}
+
+
+    // 	
+    // 	
+    // };
+
+
+function update() {
+    reloj--;
+    console.log(reloj)
+    if (reloj === 0) endGame();
+}
+
+
+function endGame() {
+    //cuando termine la cuenta regresiva, esto debe mostrar el score, la lista de palabras que lograste, 
+    //y (de ser posible) la lista de palabras posibles con esa configuración.
+    ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+    clearInterval(intervalId);
+    reloj = 6;
+    console.log(reloj);
+
+}
+
+
+window.onload = (event) => {
+    let board = new Board();
+    board.draw();
+    let dado1 = new Dado($dado1);
+    dado1.draw($dado1);
+};
+
+document.getElementById('start').onclick = () => {
+    if (intervalId) return;
+    start();
+    intervalId = setInterval(update, 1000)
+}
