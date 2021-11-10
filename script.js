@@ -74,12 +74,10 @@ class Dado {
     }
 
     draw(source) {
-
         if(source) {
-        ctx.drawImage(source, 0, 0, 10, 10);
-        
-    }
-    else {(source = "/imagenes/empty-dice.png")}
+        ctx.drawImage(source, 10, 10, 10, 10);
+    } else {(source = "/imagenes/empty-dice.png")}
+    console.log("llama el código a dado.draw?")
     }
 
     revolver(array) {
@@ -203,9 +201,6 @@ function start() {
 	let dado1 = new Dado();
     dado1.draw();
 
-    setTimeout(() => {
-        (endGame());
-    }, 6*1000)
   //checkCollitions();
 }
 
@@ -217,10 +212,9 @@ function start() {
 
 function update() {
     reloj--;
-    console.log(reloj)
+    console.log(reloj);
     if (reloj === 0) endGame();
 }
-
 
 function endGame() {
     //cuando termine la cuenta regresiva, esto debe mostrar el score, la lista de palabras que lograste, 
@@ -229,7 +223,7 @@ function endGame() {
     clearInterval(intervalId);
     reloj = 6;
     console.log(reloj);
-
+    intervalId = null;
 }
 
 
@@ -243,5 +237,5 @@ window.onload = (event) => {
 document.getElementById('start').onclick = () => {
     if (intervalId) return;
     start();
-    intervalId = setInterval(update, 1000)
+    intervalId = setInterval(update, 1000);
 }
