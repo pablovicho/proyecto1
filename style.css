@@ -1,5 +1,5 @@
 #canvas {
-    background-image: url("../imagenes/fondo-board.png");
+    background-image: url("/imagenes/fondo-board.png");
     background-size: cover;
     border-radius: 5%;
 }

@@ -21,6 +21,8 @@ diccionario.readFile('diccionario.txt', (err, data) => {
     if (err) throw err;
   
     console.log(data.toString());
+// esto me servirá para quitar acentos
+
 })*/
 
 //dados
@@ -54,7 +56,6 @@ class Board {
 		this.width = $canvas.width;
 		this.height = $canvas.height;
 		this.image = new Image();
-		this.image.src = "imagenes/fondo-board.png";
     }
 
     draw() {
@@ -67,7 +68,6 @@ class Dado {
         this.array = array;
         this.element = element;
         this.image = new Image();
-        this.image.src = "imagenes/empty-dice.png"
         this.imageurl = imageurl;   
     }
 
@@ -122,7 +122,7 @@ const dados = [[dado1, dado2, dado3, dado4], // AAEEGN, ELRTTY, AOOTTW, ABBJOO,
 
 
 function revolverDados() {
-   
+   /*
     $dado1 = dado1.revolver(dados[0]);
     $dado2 = dado2.revolver(dados[1]);
     $dado3 = dado3.revolver(dados[2]);
@@ -142,7 +142,7 @@ function revolverDados() {
     $dado14 = dado14.revolver(dados[13]);
     $dado15 = dado15.revolver(dados[14]);
     $dado16 = dado16.revolver(dados[15]);
-    
+    */
 //esto debería realizar la función revolver para todos los dados
 //sin embargo, es repetitivo, y debería poder usar la clase dado para crearlo
 //también debería ser intuitivo el usar la imagen que tenga asignada
