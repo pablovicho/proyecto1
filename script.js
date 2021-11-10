@@ -1,33 +1,16 @@
-/*
-const removeAccents = (str) => {
-  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-} 
-
-esto me permite quitar acentos
-*/
-
-
-//contadores
+//---------------------CONTADORES
 let score = 0;
 let lista = [];
 let intervalId;
 let reloj = 6;
 
-//variables globales
+//------------------VARIALES GLOBALES
 const $start = document.querySelector("start");
 const $canvas = document.querySelector("canvas");
 const ctx = $canvas.getContext("2d");
-/*const $diccionario = require('diccionario');
-  
-diccionario.readFile('diccionario.txt', (err, data) => {
-    if (err) throw err;
-  
-    console.log(data.toString());
-// esto me servirá para quitar acentos
 
-})*/
 
-//clases
+//------------------CLASES
 class Board {
     constructor() {
         this.x = 0;
@@ -43,9 +26,11 @@ class Board {
 }
 
 class Dado {
-    constructor(x, y, letra) {
+    constructor(x, y, xLetra, yLetra, letra) {
         this.x = x;
         this.y = y;
+        this.xLetra = xLetra;
+        this.yLetra = yLetra;
         this.img = new Image();
         this.img.src = "/imagenes/empty-dice.png";
         this.letra = letra;
@@ -55,9 +40,9 @@ class Dado {
         ctx.drawImage(this.img, this.x, this.y, 150, 150);
         ctx.font = '50px serif';
         if(this.letra) {
-        ctx.fillText(this.letra);
+        ctx.fillText(this.xLetra, this.yLetra, this.letra);
         } else {
-        ctx.fillText("A", this.x, this.y);
+        ctx.fillText("A", this.xLetra, this.yLetra);
     }
 }
 
@@ -73,9 +58,34 @@ class Dado {
        //  }
 }
 
-//instancias
-let dado1 = new Dado(0, 0);
+
+//-------------------------INSTANCIAS
 let board = new Board();
+let dado1 = new Dado(0, 0, xLetra(1), yLetra(1), "");
+let dado2 = new Dado(150, 0, xLetra(2), yLetra(1), "B");
+let dado3 = new Dado(300, 0, xLetra(3), yLetra(1), "O");
+let dado4 = new Dado(450, 0, xLetra(4), yLetra(1), "G");
+let dado5 = new Dado(0, 150, xLetra(1), yLetra(2), "G");
+let dado6 = new Dado(150, 150, xLetra(2), yLetra(2), "L");
+let dado7 = new Dado(300, 150, xLetra(3), yLetra(2), "E");
+let dado8 = new Dado(450, 150, xLetra(4), yLetra(2), "");
+let dado9 = new Dado(0, 300, xLetra(1), yLetra(3), "");
+let dado10 = new Dado(150, 300, xLetra(2), yLetra(3), "");
+let dado11 = new Dado(300, 300, xLetra(3), yLetra(3), "");
+let dado12 = new Dado(450, 300, xLetra(4), yLetra(3), "");
+let dado13 = new Dado(0, 450, xLetra(1), yLetra(4), "");
+let dado14 = new Dado(150, 450, xLetra(2), yLetra(4), "");
+let dado15 = new Dado(300, 450, xLetra(3), yLetra(4), "");
+let dado16 = new Dado(450, 450, xLetra(4), yLetra(4), "");
+//-------------------------FUNCIONES
+
+function xLetra(num) {
+    return (600/4)*num-(600/8)-18;
+}
+
+function yLetra(num) {
+    return (600/4)*num-(600/8)+18
+}
 
 function revolverDados() {
 
@@ -156,7 +166,22 @@ function endGame() {
 
 
 window.onload = (event) => {
-    dado1.draw(0, 0, "a");
+    dado1.draw();
+    dado2.draw();
+    dado3.draw();
+    dado4.draw();
+    dado5.draw();
+    dado6.draw();
+    dado7.draw();
+    dado8.draw();
+    dado9.draw();
+    dado10.draw();
+    dado11.draw();
+    dado12.draw();
+    dado13.draw();
+    dado14.draw();
+    dado15.draw();
+    dado16.draw();
 };
 
 document.getElementById('start').onclick = () => {
@@ -171,6 +196,26 @@ document.getElementById('start').onclick = () => {
 
 
 
+
+
+/*const $diccionario = require('diccionario');
+  
+diccionario.readFile('diccionario.txt', (err, data) => {
+    if (err) throw err;
+  
+    console.log(data.toString());
+// esto me servirá tal vez leer el diccionario
+
+})*/
+
+
+/*
+const removeAccents = (str) => {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+} 
+
+esto me permite quitar acentos
+*/
 
 
 
@@ -205,3 +250,5 @@ document.getElementById('start').onclick = () => {
 //no sé si sea mejor en objeto, en array de arrays, o una clase, 
 //pero sí es importante que no sean completamente aleatorios, para que haya más vocales que consonantes
 //me preocupa que se repitan tanto estas variables. no me parece óptimo
+
+
