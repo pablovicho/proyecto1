@@ -16,7 +16,7 @@ let array = ['e','l','r','t','t','y','a','o','o','t','t','ñ','a','b','b','j','o
 const cellSize = 150;
 const dadosArray = []; //Un arreglo que contiene todos los dados que se van da dibujar
 const gameGrid = []; // Un arreglo que contiene a todos los cuadros donde están los dados
-const palabraArray = []; //un arreglo donde se van a ir empujando las letras donde se hace click
+let palabraArray = []; //un arreglo donde se van a ir empujando las letras donde se hace click
 const cellGap = 5; //esto es lo que evitaría la colisión, y así permitir movimientos diagonales
 const mouse = { //Mouse (pos) posiciona el mouse adentro del grid
     x: 10,
@@ -140,22 +140,29 @@ function revolver(array) {
 
 
 
-//--------------------BOARD
-class Board {
-    constructor() {
-        this.x = 0;
-		this.y = 0;
-		this.width = $canvas.width;
-		this.height = $canvas.height;
-		this.img = new Image();
-        this.img.src = "/imagenes/fondo-board.png";
-    }
+//--------------------DICCIONARIO
 
-    draw() {
-		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-		}
+
+class Diccionario {
+//------------------JSON REQUEST-------------------
+constructor() {
+this.requestURL = '/diccionario/diccionario_formateado.json';
+this.request = new XMLHttpRequest();
 }
 
+invoque() {
+this.request.open('GET', this.requestURL);
+this.request.responseType = 'json';
+this.request.send();
+this.diccionario = this.request.onload = function() {
+    const diccionario = this.request.response;
+    return diccionario;
+  }
+
+  console.log(this.diccionario.diccionario);
+}
+
+}
 
 
 //-------------------------FUNCIONES PRINCIPALES-----------------------------
@@ -171,7 +178,8 @@ function start() {
     ctx.closePath();
     //checkDice();
     //checkCollitions();
-
+    let diccionario = new Diccionario;
+    diccionario.invoque();
 }
 
 function update() { //cada segundo, hace log de reloj y continúa la cuenta regresiva. al terminar, invoca endgame
@@ -197,10 +205,6 @@ function endGame() {
     console.log(reloj);
     intervalId = null;
 }
-
-window.onload = (event) => {
-    let board = new Board();
-};
 
 function pintaLetra(element) {
     element.style.font = "0f4c5c"  //¿esto está bien planteado?
@@ -236,7 +240,8 @@ $canvas.addEventListener('mouseup', function(){
 })
 
 function listaPalabra(palabra) { //esto debe revisar si la palabra está en el diccionario Y si no se escribió ya anteriormente. 
- return diccionario.palabras.includes(palabra.join("")) && lista.includes(palabra.join("")) ? false : true //aquí invertí los valores falso y verdadero, para que sea más intuitivo
+ if (lista.includes(palabra.join(""))) return false;
+    return diccionario.palabras.includes(palabra.join("")) ? true : false //aquí invertí los valores falso y verdadero, para que sea más intuitivo
 }
 
 function addPalabra(palabra) { //esto debe invocar revisarPalabra y listaPalabra. Si pasa el checklist, entonces sumarla a una lista nueva 
@@ -249,15 +254,6 @@ function countScore(lista) {
 
 }
 
-//------------------JSON REQUEST-------------------
-const requestURL = '/diccionario/diccionario_formateado.json';
-const request = new XMLHttpRequest();
-request.open('GET', requestURL);
-request.responseType = 'json';
-request.send();
-request.onload = function() {
-    const diccionario = request.response;
-    return diccionario;
-  }
 
-  console.log(diccionario);
+
+
