@@ -1,21 +1,19 @@
 //---------------------CONTADORES Y VARIABLES GLOBALES
 //@import url('')
-const $start = document.querySelector("start");
-const $canvas = document.querySelector("canvas");
+const $start = document.querySelector("start"); //el botón de start
+const $canvas = document.querySelector("canvas"); //el canvas
 const ctx = $canvas.getContext("2d");
 
-let score = 0;
+let score = 0; //todavía no tengo función para esto
 let lista = [];
 let intervalId;
-let cellSize = 150;
 let reloj = 6;
 let array = ['e','l','r','t','t','y','a','o','o','t','t','ñ','a','b','b','j','o','o','e','h','r','t','v','e','c','i','m','o','t','u','d','i','s','t','t','y','e','i','o','s','s','t','d','e','l','r','v','y','a','c','h','o','p','s','h','i','m','n','u','q','e','e','i','n','s','u','e','e','g','h','n','ñ','a','f','f','k','p','s','h','l','n','n','r','z','d','e','i','l','r','x']
 
+const cellSize = 150;
 const dadosArray = []; //Un arreglo que contiene todos los dados que se van da dibujar
 const gameGrid = []; // Un arreglo que contiene a todos los cuadros donde están los dados
-
 const palabraArray = []; //un arreglo donde se van a ir empujando las letras donde se hace click
-
 const cellGap = 5; //esto es lo que evitaría la colisión, y así permitir movimientos diagonales
 const mouse = { //Mouse (pos) posiciona el mouse adentro del grid
     x: 10,
@@ -55,15 +53,15 @@ class Cell {
         this.height = cellSize;
     }
 
-    draw(){
-        //si mouse.x tiene cordenadas (verdadero) y mouse.y tiene coordenas (verdadero) y...
-        // si (defensor = this.cell (esta instancia) y la posicion del mouse) - regresa o pinta esta misma cell(instancia)
-        if (mouse.x && mouse.y) {
+    draw(){         //si mouse.x tiene cordenadas (verdadero) y mouse.y tiene coordenas (verdadero) y regresa o pinta esta misma cell(instancia)
+        if (mouse.x && mouse.y) {         
             ctx.strokeStyle = 'black';
             ctx.strokeRect(this.x, this.y, this.width, this.height);  
         }
     }
+
 }
+
 
 function createGrid() {
     // El loop entra al canvas por rows en este loop, primero empieza debajo de la linea azul (100px en hight) y 
@@ -83,29 +81,18 @@ function cellGrids() {     // Loop que itera en el array global que se va a ir l
     }
 }
 
-class Board {
-    constructor() {
-        this.x = 0;
-		this.y = 0;
-		this.width = $canvas.width;
-		this.height = $canvas.height;
-		this.image = new Image();
-    }
-
-    draw() {
-		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-		}
-}
+//-----------------DADO
 
 class Dado {
-    constructor(x, y, xLetra, yLetra, letra) {
+    constructor(x, y, letra) {
         this.x = x;
         this.y = y;
-        this.xLetra = xLetra;
-        this.yLetra = yLetra;
+        this.xLetra = x+59;
+        this.yLetra = y+95;
         this.img = new Image();
         this.img.src = "/imagenes/empty-dice.png";
         this.letra = letra;
+        this.clicked = false;
     }
 
     draw() {
@@ -118,9 +105,7 @@ class Dado {
     }
 }
 
-
-
-isTouching(obj) {
+isTouching(obj) { //esta todavía no hace nada, y es probable que no la necesite si me sirve el event click
     return (
         this.x < obj.x + obj.width &&
         this.x + this.width > obj.x &&
@@ -128,71 +113,134 @@ isTouching(obj) {
         this.y + this.height > obj.y
     );
 }
+}
 
-   // newImage(element,imageurl) {
-     //       element.style.backgroundImage = "url("+imageurl+")";
-       //  }
+
+//--------------------BOARD
+class Board {
+    constructor() {
+        this.x = 0;
+		this.y = 0;
+		this.width = $canvas.width;
+		this.height = $canvas.height;
+		this.img = new Image();
+        this.img.src = "/imagenes/fondo-board.png";
+    }
+
+    draw() {
+		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+		}
 }
 
 
 
-
-/*class MouseClick { //dogekiller
+/*
+class MouseClick { //dogekiller
     constructor(x,y){
         this.x = x;
         this.y = y; 
         this.width = cellSize - cellGap * 2; // <- reduce el cuadro
         this.hight = cellSize - cellGap * 2;
     }
+
+    draw() {
+        ctx.
+    }
         
 }*/
 
-//-------------------------INSTANCIAS
-let board = new Board();
-let dado1 = new Dado(0, 0, xLetra(1), yLetra(1), `${revolver(array).toUpperCase()}`);
-let dado2 = new Dado(150, 0, xLetra(2), yLetra(1), `${revolver(array).toUpperCase()}`);
-let dado3 = new Dado(300, 0, xLetra(3), yLetra(1), `${revolver(array).toUpperCase()}`);
-let dado4 = new Dado(450, 0, xLetra(4), yLetra(1), `${revolver(array).toUpperCase()}`);
-let dado5 = new Dado(0, 150, xLetra(1), yLetra(2), `${revolver(array).toUpperCase()}`);
-let dado6 = new Dado(150, 150, xLetra(2), yLetra(2), `${revolver(array).toUpperCase()}`);
-let dado7 = new Dado(300, 150, xLetra(3), yLetra(2), `${revolver(array).toUpperCase()}`);
-let dado8 = new Dado(450, 150, xLetra(4), yLetra(2), `${revolver(array).toUpperCase()}`);
-let dado9 = new Dado(0, 300, xLetra(1), yLetra(3), `${revolver(array).toUpperCase()}`);
-let dado10 = new Dado(150, 300, xLetra(2), yLetra(3), `${revolver(array).toUpperCase()}`);
-let dado11 = new Dado(300, 300, xLetra(3), yLetra(3), `${revolver(array).toUpperCase()}`);
-let dado12 = new Dado(450, 300, xLetra(4), yLetra(3), `${revolver(array).toUpperCase()}`);
-let dado13 = new Dado(0, 450, xLetra(1), yLetra(4), `${revolver(array).toUpperCase()}`);
-let dado14 = new Dado(150, 450, xLetra(2), yLetra(4), `${revolver(array).toUpperCase()}`);
-let dado15 = new Dado(300, 450, xLetra(3), yLetra(4), `${revolver(array).toUpperCase()}`);
-let dado16 = new Dado(450, 450, xLetra(4), yLetra(4), `${revolver(array).toUpperCase()}`);
-//-------------------------FUNCIONES
+
+
+
+function createDado() {
+    // El loop entra al canvas por rows en este loop, y va iterando 150px en X hasta terminar el $canvas.width y baja de nuevo en 150px (cellSeize)
+    for (let y = 0; y < $canvas.height; y += cellSize) {
+        for (let x = 0; x < $canvas.width; x += cellSize) {
+            let caracterX = x+59;
+            let caracterY = y+95;
+            // cada vez que nos movemos horizontalmente en X en 100px (cellSize) se manda al array un nuevo Cell
+            //se ponen Cell por todo el canvas en X y Y
+            dadosArray.push(new Dado(x,y,caracterX,caracterY, `${revolver(array).toUpperCase()}`));
+        }
+    }
+}
+
+function drawDado() {     // Loop que itera en el array global que se va a ir llenando en mi event click de Crear nuevo dogeKiller
+    for (let i = 0; i < dadosArray.length; i++) {
+        dadosArray[i].draw();
+    }
+}
 
 function revolver(array) {
     let random = Math.floor(Math.random() * array.length);
     return array[random];     //esto regresa un número de array, que se va a usar para elegir una letra de cada dado
     }
 
-function xLetra(num) { //ubica las letras adentro del cuadro en x
-    return (600/4)*num-(600/8)-18;
+//-------------------------INSTANCIAS
+
+//-------------------------FUNCIONES
+
+
+function start() {
+    //esto debe crear un nuevo tablero, una nueva lista, un nuevo score, invocar las funciones de revolver, revolverDados y mezclarDados, e iniciar la cuenta regresiva con finish
+    createDado();
+	// 2. Limpiar el canvas
+	ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+	// 3. Dibujar los elementos    
+    drawDado();
+    //checkDice();
+    //checkCollitions();
+
 }
 
-function yLetra(num) { //ubica las letras adentro del cuadro en y
-    return (600/4)*num-(600/8)+18
+function update() { //cada segundo, hace log de reloj y continúa la cuenta regresiva. al terminar, invoca endgame
+    reloj--;
+    console.log(reloj);
+    cellGrids();
+    if (reloj === 0) endGame();
 }
 
-function revolverDados() {//esto debería realizar la función revolver para todos los dados
+document.getElementById('start').onclick = () => { //esto solamente crea la cuenta regresiva e invoca start
+    if (intervalId) return;
+    start();
+    intervalId = setInterval(update, 1000);
 }
 
-function mezclarDados(dados) {
-    return Math.floor(Math.random() * dados.length);
-    //esto debería poner todos los dados al azar. 
-    //tal vez no sea necesario, y en su lugar sea mejor usar los dados fijos. 
-    //¿Pero no sería mejor en este caso usar todas las letras en cada dado? pero así las vocales salen muy poquito
+function endGame() {
+    //cuando termine la cuenta regresiva, esto debe mostrar el score, la lista de palabras que lograste, 
+    //y (de ser posible) la lista de palabras posibles con esa configuración.
+    ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+    clearInterval(intervalId);
+    reloj = 6;
+    console.log(reloj);
+    intervalId = null;
 }
 
-function armarPalabra(click) {//esto debe juntar la elección de cada letra en orden
-    palabra.push(click);
+window.onload = (event) => {
+    let board = new Board();
+};
+
+function pintaLetra(element) {
+    element.style.font = "0f4c5c"
 }
+
+$canvas.addEventListener('click', function(){
+    // Tomaremos la coordenada principal u original del mouse en X y Y
+    // supongamos que la posicion del mouse es 250 en X y cellSize = 150 entonces 250 - (150) = 100 
+    // Esto es el valor de la posicion de mi Celda en X a la izquierda (son 4 columnas - 600px)
+    const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
+    const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
+        for (let i = 0; i < dadosArray.length; i++) {
+            if (dadosArray[i].x === gridPositionX && gameGrid[i].y === gridPositionY) {
+                if (dadosArray[i].clicked === true) { //<---- Si ya había hecho click en el lugar, NO HAGAS NADA
+                    return
+                }
+                palabraArray.push(dadosArray[i].letra);
+                dadosArray[i].clicked = true; //<---- Ahora sí, marca la celda como ya clickeada
+                console.log(palabraArray);
+            }
+        }
+})
 
 function revisarPalabra(palabra) {//esto debe revisar si cada letra está concatenada a la anterior Y si no se usó el mismo dado para la palabra
     forEach((palabra.split("").join("")) = (letra) => { //mi problema es que no quiero la palabra misma ni sus letras, sino los botones que se usaron
@@ -204,86 +252,6 @@ function listaPalabra(palabra) { //esto debe revisar si la palabra está en el d
  return palabra
 }
 
-function addPalabra(palabra) { //esto debe ser un botón que invoca revisarPalabra y listaPalabra. Si pasa el checklist, entonces sumarla a una lista nueva 
+function addPalabra(palabra) { //esto debe invocar revisarPalabra y listaPalabra. Si pasa el checklist, entonces sumarla a una lista nueva 
     return revisarPalabra(palabra) && listaPalabra(palabra) ? lista.push(palabra) : null;
-}
-
-function start() {
-    //esto debe crear un nuevo tablero, una nueva lista, un nuevo score,
-    //invocar las funciones de revolver, revolverDados y mezclarDados,
-    //e iniciar la cuenta regresiva con finish
-    //checkDice();
-
-	// 2. Limpiar el canvas
-
-	ctx.clearRect(0, 0, $canvas.width, $canvas.height);
-	// 3. Dibujar los elementos
-    let board = new Board();
-    board.draw();
-dado1.draw();
-dado2.draw();
-dado3.draw();
-dado4.draw();
-dado5.draw();
-dado6.draw();
-dado7.draw();
-dado8.draw();
-dado9.draw();
-dado10.draw();
-dado11.draw();
-dado12.draw();
-dado13.draw();
-dado14.draw();
-dado15.draw();
-dado16.draw();
-cellGrids();
-//checkCollitions();
-
-}
-
-function update() {
-    reloj--;
-    console.log(reloj);
-    if (reloj === 0) endGame();
-    board.draw();
-}
-
-function endGame() {
-    //cuando termine la cuenta regresiva, esto debe mostrar el score, la lista de palabras que lograste, 
-    //y (de ser posible) la lista de palabras posibles con esa configuración.
-    ctx.clearRect(0, 0, $canvas.width, $canvas.height);
-    clearInterval(intervalId);
-    reloj = 6;
-    console.log(reloj);
-    intervalId = null;
-    reStart();
-}
-
-function reStart() {
-//esto debería permitir que se pueda volver a hacer click en start
-board.draw();
-}
-
-window.onload = (event) => {
-    reStart();
-};
-
-document.getElementById('start').onclick = () => {
-    if (intervalId) return;
-    start();
-    intervalId = setInterval(update, 1000);
-}
-
-
-$canvas.addEventListener('click', function(){
-    // Tomaremos la coordenada principal o original del mouse en X y Y
-    // supongamos que la posicion del mouse es 250 en X y cellSize = 150 entonces 250 - (150) = 100 
-    // Esto es el valor de la posicion de mi Celda en X a la izquierda (son 4 columnas - 600px)
-    const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
-    const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
-        for (let i = 0; i < dogeKillers.length; i++) {
-            if (dogeKillers[i].x === gridPositionX && dogeKillers[i].y === gridPositionY) {
-                return; // <---- Si la posicion del defensor que ya habia colocado es igual al click de mi nueva CELDA (NO HAGAS NADA)
-            }}
-
-})
+} //debo enlazarlo a cuando se deja de hacer click
