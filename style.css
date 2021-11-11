@@ -8,6 +8,10 @@
     src: local('IndieFlower-Regular'), url(/fonts/IndieFlower-Regular.ttf) format('ttf');
   }
 
+body {
+    background-color: #f8f8ff;
+}
+
 #canvas {
     background-image: url("/imagenes/portada.png");
     background-size: cover;
@@ -30,12 +34,27 @@
 #start > button {
     font-size: 35px;
     border-radius: 8%;
+    margin-left: 275px;
+    margin-top: 20px;
 }
 
 #cuerpo {
     display: flex;
     justify-content: space-between;
     margin-top: 90px;
-    margin-left: 10px;
+    margin-left: 80px;
     margin-right: 10px;
+}
+
+article {
+    font-size: 20px;
+}
+
+h2 {
+    font-size: 40px;
+}
+
+#texto {
+    margin-right: 230px;
+    margin-top: 80px;
 }

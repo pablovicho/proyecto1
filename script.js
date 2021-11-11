@@ -148,7 +148,7 @@ class Board {
 		this.width = $canvas.width;
 		this.height = $canvas.height;
 		this.img = new Image();
-        this.img.src = "/imagenes/fondo-board.png";
+        this.img.src = "imagenes/fondo-board.png";
     }
 
     draw() {
@@ -202,6 +202,7 @@ function endGame() {
 }
 
 window.onload = (event) => {
+    loadDiccionario();
     let board = new Board();
 };
 
@@ -255,10 +256,11 @@ function countScore(lista) {
 
 //------------------JSON REQUEST-------------------
 
-let diccionario;
-  let allQuestions = new Array();
+let diccionario = new Array();
     
-function loadQuestions() {
+
+function loadDiccionario() {
+    import $ from "jquery";
     $.getJSON('question.json', function (data) {
         diccionario = data.palabras;
     }).error(function(){
