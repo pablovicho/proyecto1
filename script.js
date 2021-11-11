@@ -140,28 +140,24 @@ function revolver(array) {
 
 
 
-//--------------------DICCIONARIO
+//--------------------BOARD
+class Board {
+    constructor() {
+        this.x = 0;
+		this.y = 0;
+		this.width = $canvas.width;
+		this.height = $canvas.height;
+		this.img = new Image();
+        this.img.src = "/imagenes/fondo-board.png";
+    }
 
+    draw() {
+		ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+		}
+}
 
 class Diccionario {
-//------------------JSON REQUEST-------------------
-constructor() {
-this.requestURL = '/diccionario/diccionario_formateado.json';
-this.request = new XMLHttpRequest();
-}
-
-invoque() {
-this.request.open('GET', this.requestURL);
-this.request.responseType = 'json';
-this.request.send();
-this.diccionario = this.request.onload = function() {
-    const diccionario = this.request.response;
-    return diccionario;
-  }
-
-  console.log(this.diccionario.diccionario);
-}
-
+    
 }
 
 
@@ -178,8 +174,7 @@ function start() {
     ctx.closePath();
     //checkDice();
     //checkCollitions();
-    let diccionario = new Diccionario;
-    diccionario.invoque();
+
 }
 
 function update() { //cada segundo, hace log de reloj y continúa la cuenta regresiva. al terminar, invoca endgame
@@ -205,6 +200,10 @@ function endGame() {
     console.log(reloj);
     intervalId = null;
 }
+
+window.onload = (event) => {
+    let board = new Board();
+};
 
 function pintaLetra(element) {
     element.style.font = "0f4c5c"  //¿esto está bien planteado?
@@ -254,6 +253,18 @@ function countScore(lista) {
 
 }
 
+//------------------JSON REQUEST-------------------
+const requestURL = '/diccionario/diccionario_formateado.json';
+const request = new XMLHttpRequest();
+request.open('GET', requestURL);
+request.responseType = 'json';
+request.send();
+request.onload = function() {
+    this.diccionario = request.response;
+    return this.diccionario;
+  }
+
+  console.log(diccionario);
 
 
 
