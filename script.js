@@ -4,12 +4,14 @@ const $start = document.querySelector("start"); //el botón de start
 const $canvas = document.querySelector("canvas"); //el canvas
 const $listaPalabras = document.querySelector("listaPalabras");
 const ctx = $canvas.getContext("2d");
+$canvas.height = 600;
+$canvas.width = 600;
 
 let score = 0; //todavía no tengo función para esto
 let lista = [];
 let intervalId;
 let reloj = 6;
-let array = ['e','l','r','t','t','y','a','o','o','t','t','ñ','a','b','b','j','o','o','e','h','r','t','v','e','c','i','m','o','t','u','d','i','s','t','t','y','e','i','o','s','s','t','d','e','l','r','v','y','a','c','h','o','p','s','h','i','m','n','u','q','e','e','i','n','s','u','e','e','g','h','n','ñ','a','f','f','k','p','s','h','l','n','n','r','z','d','e','i','l','r','x']
+let array = ['e','l','r','t','t','y','a','o','o','t','t','ñ','a','b','b','j','o','o','e','h','r','t','v','e','c','i','m','o','t','u','d','i','s','t','t','y','e','i','o','s','s','t','d','e','l','r','v','y','a','c','h','o','p','s','h','i','m','n','u','q','e','e','i','n','s','u','e','e','g','h','n','ñ','a','f','f','k','p','s','h','l','n','n','r','z','d','e','i','l','r','x','a']
 
 const cellSize = 150;
 const dadosArray = []; //Un arreglo que contiene todos los dados que se van da dibujar
@@ -188,6 +190,7 @@ document.getElementById('start').onclick = () => { //esto solamente crea la cuen
 function endGame() {
     //cuando termine la cuenta regresiva, esto debe mostrar el score, la lista de palabras que lograste, 
     //y (de ser posible) la lista de palabras posibles con esa configuración.
+    countScore(lista);
     ctx.clearRect(0, 0, $canvas.width, $canvas.height);
     clearInterval(intervalId);
     reloj = 6;
@@ -233,20 +236,21 @@ $canvas.addEventListener('mouseup', function(){
 })
 
 function listaPalabra(palabra) { //esto debe revisar si la palabra está en el diccionario Y si no se escribió ya anteriormente. 
- return diccionario.includes(palabra.join("")) && lista.includes(palabra.join("")) ? false : true //aquí invertí los valores falso y verdadero, para que sea más intuitivo
+ return diccionario.palabras.includes(palabra.join("")) && lista.includes(palabra.join("")) ? false : true //aquí invertí los valores falso y verdadero, para que sea más intuitivo
 }
 
 function addPalabra(palabra) { //esto debe invocar revisarPalabra y listaPalabra. Si pasa el checklist, entonces sumarla a una lista nueva 
 lista.push(palabra.join(""));
 let $nuevaPalabra = palabra.join("");
-$listaPalabras.appendChild($nuevaPalabra);
-
-} //debo enlazarlo a cuando se deja de hacer click
+$listaPalabras.appendChild($nuevaPalabra); } //debo enlazarlo a cuando se deja de hacer click
 
 
+function countScore(lista) {
+
+}
 
 //------------------JSON REQUEST-------------------
-const requestURL = 'https://github.com/pablovicho/proyecto1/blob/main/diccionario/diccionario_formateado.json';
+const requestURL = '/diccionario/diccionario_formateado.json';
 const request = new XMLHttpRequest();
 request.open('GET', requestURL);
 request.responseType = 'json';
@@ -255,3 +259,5 @@ request.onload = function() {
     const diccionario = request.response;
     return diccionario;
   }
+
+  console.log(diccionario);

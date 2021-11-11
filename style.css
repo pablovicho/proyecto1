@@ -34,6 +34,8 @@
 
 #cuerpo {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    margin-top: 90px;
+    margin-left: 100px;
+    margin-right: 100px;
 }
