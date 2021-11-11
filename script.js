@@ -246,7 +246,7 @@ $listaPalabras.appendChild($nuevaPalabra);
 
 
 //------------------JSON REQUEST-------------------
-const requestURL = 'diccionario/diccionario_formateado.json';
+const requestURL = 'https://github.com/pablovicho/proyecto1/blob/main/diccionario/diccionario_formateado.json';
 const request = new XMLHttpRequest();
 request.open('GET', requestURL);
 request.responseType = 'json';
