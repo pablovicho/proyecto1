@@ -156,11 +156,10 @@ function createDado() {
     // El loop entra al canvas por rows en este loop, y va iterando 150px en X hasta terminar el $canvas.width y baja de nuevo en 150px (cellSeize)
     for (let y = 0; y < $canvas.height; y += cellSize) {
         for (let x = 0; x < $canvas.width; x += cellSize) {
-            let caracterX = x+59;
-            let caracterY = y+95;
+
             // cada vez que nos movemos horizontalmente en X en 100px (cellSize) se manda al array un nuevo Cell
             //se ponen Cell por todo el canvas en X y Y
-            dadosArray.push(new Dado(x,y,caracterX,caracterY, `${revolver(array).toUpperCase()}`));
+            dadosArray.push(new Dado(x,y, `${revolver(array).toUpperCase()}`));
         }
     }
 }
