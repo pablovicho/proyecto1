@@ -240,7 +240,7 @@ $canvas.addEventListener('mouseup', function(){
 
 function listaPalabra(palabra) { //esto debe revisar si la palabra está en el diccionario Y si no se escribió ya anteriormente. 
  if (lista.includes(palabra.join(""))) return false;
-    return diccionario.palabras.includes(palabra.join("")) ? true : false //aquí invertí los valores falso y verdadero, para que sea más intuitivo
+    return diccionario.includes(palabra.join("")) ? true : false //aquí invertí los valores falso y verdadero, para que sea más intuitivo
 }
 
 function addPalabra(palabra) { //esto debe invocar revisarPalabra y listaPalabra. Si pasa el checklist, entonces sumarla a una lista nueva 
@@ -254,17 +254,18 @@ function countScore(lista) {
 }
 
 //------------------JSON REQUEST-------------------
-const requestURL = '/diccionario/diccionario_formateado.json';
-const request = new XMLHttpRequest();
-request.open('GET', requestURL);
-request.responseType = 'json';
-request.send();
-request.onload = function() {
-    this.diccionario = request.response;
-    return this.diccionario;
-  }
 
-  console.log(diccionario);
+let diccionario;
+  let allQuestions = new Array();
+    
+function loadQuestions() {
+    $.getJSON('question.json', function (data) {
+        diccionario = data.palabras;
+    }).error(function(){
+            console.log('error: json not loaded');
+        });
+    }
 
+    console.log(diccionario[1]);
 
 
