@@ -32,3 +32,8 @@
     border-radius: 8%;
 }
 
+#cuerpo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

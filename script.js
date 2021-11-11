@@ -2,6 +2,7 @@
 //@import url('')
 const $start = document.querySelector("start"); //el botón de start
 const $canvas = document.querySelector("canvas"); //el canvas
+const $listaPalabras = document.querySelector("listaPalabras");
 const ctx = $canvas.getContext("2d");
 
 let score = 0; //todavía no tengo función para esto
@@ -115,6 +116,27 @@ isTouching(obj) { //esta todavía no hace nada, y es probable que no la necesite
 }
 }
 
+function createDado() {
+    // El loop entra al canvas por rows en este loop, y va iterando 150px en X hasta terminar el $canvas.width y baja de nuevo en 150px (cellSeize)
+    for (let y = 0; y < $canvas.height; y += cellSize) {
+        for (let x = 0; x < $canvas.width; x += cellSize) {   // cada vez que nos movemos horizontalmente en X en 100px (cellSize) se manda al array un nuevo Cell
+            dadosArray.push(new Dado(x, y, `${revolver(array).toUpperCase()}`)); //se ponen dados por todo el canvas en X y Y
+        }
+    }
+}
+
+function drawDado() {     // Loop que itera en el array global que se va a ir llenando en mi event click de Crear nuevo dogeKiller
+    for (let i = 0; i < dadosArray.length; i++) {
+        dadosArray[i].draw();
+    }
+}
+
+function revolver(array) {
+    let random = Math.floor(Math.random() * array.length);
+    return array[random];     //esto regresa un número de array, que se va a usar para elegir una letra de cada dado
+    }
+
+
 
 //--------------------BOARD
 class Board {
@@ -134,59 +156,17 @@ class Board {
 
 
 
-/*
-class MouseClick { //dogekiller
-    constructor(x,y){
-        this.x = x;
-        this.y = y; 
-        this.width = cellSize - cellGap * 2; // <- reduce el cuadro
-        this.hight = cellSize - cellGap * 2;
-    }
-
-    draw() {
-        ctx.
-    }
-        
-}*/
-
-
-
-
-function createDado() {
-    // El loop entra al canvas por rows en este loop, y va iterando 150px en X hasta terminar el $canvas.width y baja de nuevo en 150px (cellSeize)
-    for (let y = 0; y < $canvas.height; y += cellSize) {
-        for (let x = 0; x < $canvas.width; x += cellSize) {
-
-            // cada vez que nos movemos horizontalmente en X en 100px (cellSize) se manda al array un nuevo Cell
-            //se ponen Cell por todo el canvas en X y Y
-            dadosArray.push(new Dado(x,y, `${revolver(array).toUpperCase()}`));
-        }
-    }
-}
-
-function drawDado() {     // Loop que itera en el array global que se va a ir llenando en mi event click de Crear nuevo dogeKiller
-    for (let i = 0; i < dadosArray.length; i++) {
-        dadosArray[i].draw();
-    }
-}
-
-function revolver(array) {
-    let random = Math.floor(Math.random() * array.length);
-    return array[random];     //esto regresa un número de array, que se va a usar para elegir una letra de cada dado
-    }
-
-//-------------------------INSTANCIAS
-
-//-------------------------FUNCIONES
-
+//-------------------------FUNCIONES PRINCIPALES-----------------------------
 
 function start() {
     //esto debe crear un nuevo tablero, una nueva lista, un nuevo score, invocar las funciones de revolver, revolverDados y mezclarDados, e iniciar la cuenta regresiva con finish
     createDado();
 	// 2. Limpiar el canvas
 	ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+    ctx.beginPath();
 	// 3. Dibujar los elementos    
     drawDado();
+    ctx.closePath();
     //checkDice();
     //checkCollitions();
 
@@ -220,37 +200,58 @@ window.onload = (event) => {
 };
 
 function pintaLetra(element) {
-    element.style.font = "0f4c5c"
+    element.style.font = "0f4c5c"  //¿esto está bien planteado?
 }
 
-$canvas.addEventListener('click', function(){
+
+//------------------MOUSE EVENTS------------------
+
+$canvas.addEventListener('mousedown', function(){
     // Tomaremos la coordenada principal u original del mouse en X y Y
     // supongamos que la posicion del mouse es 250 en X y cellSize = 150 entonces 250 - (150) = 100 
     // Esto es el valor de la posicion de mi Celda en X a la izquierda (son 4 columnas - 600px)
-    const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
+    const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap; //tal vez el error esté en este cálculo
     const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
         for (let i = 0; i < dadosArray.length; i++) {
             if (dadosArray[i].x === gridPositionX && gameGrid[i].y === gridPositionY) {
                 if (dadosArray[i].clicked === true) { //<---- Si ya había hecho click en el lugar, NO HAGAS NADA
                     return
                 }
+                pintaLetra(dadosArray[i].letra);
                 palabraArray.push(dadosArray[i].letra);
-                dadosArray[i].clicked = true; //<---- Ahora sí, marca la celda como ya clickeada
                 console.log(palabraArray);
+                dadosArray[i].clicked = true; //<---- Ahora sí, marca la celda como ya clickeada
             }
         }
 })
 
-function revisarPalabra(palabra) {//esto debe revisar si cada letra está concatenada a la anterior Y si no se usó el mismo dado para la palabra
-    forEach((palabra.split("").join("")) = (letra) => { //mi problema es que no quiero la palabra misma ni sus letras, sino los botones que se usaron
-    });
-        }
-    
+$canvas.addEventListener('mouseup', function(){
+    if(listaPalabra(palabraArray)) {
+        addPalabra(palabraArray);
+        palabraArray = [];
+    }
+})
 
 function listaPalabra(palabra) { //esto debe revisar si la palabra está en el diccionario Y si no se escribió ya anteriormente. 
- return palabra
+ return diccionario.includes(palabra.join("")) && lista.includes(palabra.join("")) ? false : true //aquí invertí los valores falso y verdadero, para que sea más intuitivo
 }
 
 function addPalabra(palabra) { //esto debe invocar revisarPalabra y listaPalabra. Si pasa el checklist, entonces sumarla a una lista nueva 
-    return revisarPalabra(palabra) && listaPalabra(palabra) ? lista.push(palabra) : null;
+lista.push(palabra.join(""));
+let $nuevaPalabra = palabra.join("");
+$listaPalabras.appendChild($nuevaPalabra);
+
 } //debo enlazarlo a cuando se deja de hacer click
+
+
+
+//------------------JSON REQUEST-------------------
+const requestURL = 'diccionario/diccionario_formateado.json';
+const request = new XMLHttpRequest();
+request.open('GET', requestURL);
+request.responseType = 'json';
+request.send();
+request.onload = function() {
+    const diccionario = request.response;
+    return diccionario;
+  }
