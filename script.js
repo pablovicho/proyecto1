@@ -19,7 +19,7 @@ const relojHTML = document.querySelector("#reloj");
 let score = 0;
 let lista = [];
 let intervalId;
-let reloj = 6;
+let reloj = 60;
 let array = ['e','l','r','t','t','y','a','o','o','t','t','ñ','a','b','b','j','o','o','e','h','r','t','v','e','c','i','m','o','t','u','d','i','s','t','t','y','e','i','o','s','s','t','d','e','l','r','v','y','a','c','h','o','p','s','h','i','m','n','u','q','e','e','i','n','s','u','e','e','g','h','n','ñ','a','f','f','k','p','s','h','l','n','n','r','z','d','e','i','l','r','x','a']
 
 const cellSize = 150;
@@ -44,11 +44,6 @@ let canvasPosition = canvas.getBoundingClientRect();
 canvas.addEventListener('mousemove', function(event){
     mouse.x = event.x - canvasPosition.left; // el mouse accede a las coordinadas del canvas global
     mouse.y = event.y - canvasPosition.top;
-})
-
-canvas.addEventListener('mouseleave', function(event){ //cuando el mouse sale del canvas: mouseleave ocurre cuando el puntero del mouse se mueve fuera de un elemento.
-    mouse.y = undefined;                                // regresa a la posicion acual del mouse obj.
-    mouse.x = undefined; 
 })
 
 
@@ -136,6 +131,7 @@ function createDado() {
     }
 }
 
+
 function drawDado() {     // Loop que itera en el array global que se va a ir llenando en mi event click de Crear nuevo dogeKiller
     for (let i = 0; i < dadosArray.length; i++) {
         dadosArray[i].draw();
@@ -172,15 +168,16 @@ function start() {
     //esto debe crear un nuevo tablero, una nueva lista, un nuevo score, invocar las funciones de revolver, revolverDados y mezclarDados, e iniciar la cuenta regresiva con finish
     createDado();
 	// 2. Limpiar el canvas
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	
 	// 3. Dibujar los elementos    
-    drawDado();
+    
     
 }
 
 function update() { //cada segundo, hace log de reloj y continúa la cuenta regresiva. al terminar, invoca endgame
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawDado();
     reloj--;
-    console.log(reloj);
     cellGrids();
     drawReloj();
     if (reloj <= 0) endGame();
@@ -200,7 +197,6 @@ function endGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     clearInterval(intervalId);
     reloj = 6;
-    console.log(reloj);
     intervalId = null;
     lista = [];
     
@@ -212,7 +208,8 @@ window.onload = (event) => {
 };
 
 function pintaLetra(element) {
-    element.style.font = "0f4c5c"  //¿esto está bien planteado? quiero que al hacer click, la letra cambie de color
+    querySelector('aside').innerHTML
+    element.innerHTML.style.font = "0f4c5c"  //¿esto está bien planteado? quiero que al hacer click, la letra cambie de color
 }
 
 
@@ -222,36 +219,44 @@ canvas.addEventListener('mousedown', function(){
     // Tomaremos la coordenada principal u original del mouse en X y Y
     // supongamos que la posicion del mouse es 250 en X y cellSize = 150 entonces 250 - (150) = 100 
     // Esto es el valor de la posicion de mi Celda en X a la izquierda (son 4 columnas - 600px)
-    const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap; //tal vez el error esté en este cálculo
-    const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
+    const gridPositionX = mouse.x; //tal vez el error esté en este cálculo
+    const gridPositionY = mouse.y;
         for (let i = 0; i < dadosArray.length; i++) {
-            if (dadosArray[i].x === gridPositionX && gameGrid[i].y === gridPositionY) {
-                if (dadosArray[i].clicked === true) { //<---- Si ya había hecho click en el lugar, NO HAGAS NADA
-                    return
-                }
-                pintaLetra(dadosArray[i].letra);
+            if (dadosArray[i].clicked === true) { //<---- Si ya había hecho click en el lugar, NO HAGAS NADA
+                return;
+            }
+                if (gridPositionX >= dadosArray[i].x && 
+                    gridPositionX <= dadosArray[i].x+cellSize && 
+                    gridPositionY >= dadosArray[i].y 
+                    && gridPositionY <= dadosArray[i].y+cellSize) { 
+               // pintaLetra(dadosArray[i].letra);
                 palabraArray.push(dadosArray[i].letra);
-                console.log(palabraArray);
                 dadosArray[i].clicked = true; //<---- Ahora sí, marca la celda como ya clickeada
             }
         }
 })
 
-canvas.addEventListener('mouseup', function(){
+    document.getElementById('add').onclick = () => {
+    console.log(palabraArray);
     if(listaPalabra(palabraArray)) {
         addPalabra(palabraArray);
         palabraArray = [];
     }
-})
+    palabraArray = [];
+    for (let i = 0; i < dadosArray.length; i++) {
+        dadosArray[i].clicked = false;
+    }
+}
 
 function listaPalabra(palabra) { //esto debe revisar si la palabra está en el diccionario Y si no se escribió ya anteriormente. 
- if (lista.includes(palabra.join(""))) return false;
-    return diccionario.includes(palabra.join("")) ? true : false //aquí invertí los valores falso y verdadero, para que sea más intuitivo
+    console.log(diccionario.includes(palabra.join("").toLowerCase()));
+    if (lista.includes(palabra.join("").toLowerCase())) return false;
+    return diccionario.includes(palabra.join("").toLowerCase()) ? true : false //aquí invertí los valores falso y verdadero, para que sea más intuitivo
 }
 
 function addPalabra(palabra) { //esto debe invocar revisarPalabra y listaPalabra. Si pasa el checklist, entonces sumarla a una lista nueva 
-lista.push(palabra.join(""));
-listaPalabras.appendChild(palabra.join()); } //debo enlazarlo a cuando se deja de hacer click
+lista.push(palabra.join("").toLowerCase());
+listaPalabras.appendChild(palabra.join('').toLowerCase()); } //debo enlazarlo a cuando se deja de hacer click
 
 function countScore(lista) {  //esto cuenta el largo de cada palabra del array lista, y suma puntos al score. falta invocarla
     lista.forEach((elemento) => {
@@ -283,7 +288,7 @@ function winLose() { // falta invocarla y asignarla
 
 function drawWinLose() { //esto dibuja el mensaje de ganaste o perdiste
 if (winLose()) {
-    document.querySelector('win-Lose').innerHTML = `<span>"Ganaste!!"</span>`
+canvas.innerHTML = `<span>"Ganaste!!"</span>`
 } else {
     document.querySelector('win-Lose').innerHTML = `<span>"Perdiste :/"</span>`
 }
@@ -296,29 +301,3 @@ function drawReloj() {
     relojHTML.innerHTML = `<span class="position-relative" style="color:black"> 00:${reloj}</span>`;
 }
 }
-
-//------------------JSON REQUEST-------------------
-
-let diccionario = new Array(); //aquí haré push de todas las palabras del diccionario
-    
-/*
-function loadDiccionario() {
-    import * as $ from require("jquery");
-    $.getJSON('question.json', function (data) {
-        diccionario = data.palabras;
-    }).error(function(){
-            console.log('error: json not loaded');
-        });
-    }
-
-    console.log(diccionario[1]);
-
-//esto fue el primer intento
-
-$(function(){
-    $.get('https://raw.githubusercontent.com/JorgeDuenasLerin/diccionario-espanol-txt/master/0_palabras_todas.txt', function(data){
-        diccionario = data.split(',');
-        console.log(diccionario);
-    });
-}); //este segundo intento apenas empezaba, aprendiendo a usar jquery
-*/
