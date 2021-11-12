@@ -1,18 +1,22 @@
 //
-const script = document.createElement('script');
-script.src = 'https://code.jquery.com/jquery-3.4.1.min.js';
-script.type = 'text/javascript';
-document.getElementsByTagName('head')[0].appendChild(script);
+// const script = document.createElement('script');                   // esto es de jquery
+// script.src = 'https://code.jquery.com/jquery-3.4.1.min.js';
+// script.type = 'text/javascript';
+// document.getElementsByTagName('head')[0].appendChild(script);
+
+
+
 
 //---------------------CONTADORES Y VARIABLES GLOBALES
 //@import url('')
-const canvas = document.querySelector("canvas"); //el canvas
-const listaPalabras = document.querySelector("listaPalabras");
+const canvas = document.querySelector("#canvas"); //el canvas
+const listaPalabras = document.querySelector("#listaPalabras");
 const ctx = canvas.getContext("2d");
 canvas.height = 600;
 canvas.width = 600;
+const relojHTML = document.querySelector("#reloj");
 
-let score = 0; //todavía no tengo función para esto
+let score = 0;
 let lista = [];
 let intervalId;
 let reloj = 6;
@@ -113,7 +117,7 @@ class Dado {
     }
 }
 
-isTouching(obj) { //esta todavía no hace nada, y es probable que no la necesite si me sirve el event click
+isTouching(obj) { //esta todavía no hace nada, y es probable que no la necesite si me sirve el event mouseup
     return (
         this.x < obj.x + obj.width &&
         this.x + this.width > obj.x &&
@@ -161,10 +165,6 @@ class Board {
 		}
 }
 
-class Diccionario {
-    
-}
-
 
 //-------------------------FUNCIONES PRINCIPALES-----------------------------
 
@@ -173,19 +173,17 @@ function start() {
     createDado();
 	// 2. Limpiar el canvas
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.beginPath();
 	// 3. Dibujar los elementos    
     drawDado();
-    ctx.closePath();
-    //checkDice();
-    //checkCollitions();
+    
 }
 
 function update() { //cada segundo, hace log de reloj y continúa la cuenta regresiva. al terminar, invoca endgame
     reloj--;
     console.log(reloj);
     cellGrids();
-    if (reloj === 0) endGame();
+    drawReloj();
+    if (reloj <= 0) endGame();
 }
 
 document.getElementById('start').onclick = () => { //esto solamente crea la cuenta regresiva e invoca start desde el botón
@@ -203,15 +201,16 @@ function endGame() {
     reloj = 6;
     console.log(reloj);
     intervalId = null;
+    lista = [];
 }
 
-window.onload = (event) => {
-   // loadDiccionario();
+window.onload = (event) => { 
+   // loadDiccionario(); aquí buscaría cargar el diccionario desde JSON
     let board = new Board();
 };
 
 function pintaLetra(element) {
-    element.style.font = "0f4c5c"  //¿esto está bien planteado?
+    element.style.font = "0f4c5c"  //¿esto está bien planteado? quiero que al hacer click, la letra cambie de color
 }
 
 
@@ -250,17 +249,43 @@ function listaPalabra(palabra) { //esto debe revisar si la palabra está en el d
 
 function addPalabra(palabra) { //esto debe invocar revisarPalabra y listaPalabra. Si pasa el checklist, entonces sumarla a una lista nueva 
 lista.push(palabra.join(""));
-let nuevaPalabra = palabra.join("");
-listaPalabras.appendChild(nuevaPalabra); } //debo enlazarlo a cuando se deja de hacer click
+listaPalabras.appendChild(palabra.join()); } //debo enlazarlo a cuando se deja de hacer click
+
+function countScore(lista) {  //esto cuenta el largo de cada palabra del array lista, y suma puntos al score. falta invocarla
+    lista.forEach((elemento) => {
+    let length = elemento.length;
+switch(length){
+    case 1 || 2: break;
+    case 3 || 4: score+=1;
+    break;
+    case 5: score+= 2;
+    break;
+    case 6: score+= 3;
+    break;
+    case 7: score+= 5;
+    break;
+    default: score += 10;
+}
+    });
+return score;
+}
 
 
-function countScore(lista) {
+function drawScore() { //quiero dibujar el score en el DOM, ¿pero dónde? falta invocarla y asignarla a una variable
 
+}
+
+function winLose() { // falta invocarla y asignarla
+    return score >= 10 ? "Ganaste!!" : "Perdiste :/"
+}
+
+function drawReloj() {
+    relojHTML.innerHTML = `00:${reloj}`;
 }
 
 //------------------JSON REQUEST-------------------
 
-let diccionario = new Array();
+let diccionario = new Array(); //aquí haré push de todas las palabras del diccionario
     
 /*
 function loadDiccionario() {
@@ -274,11 +299,12 @@ function loadDiccionario() {
 
     console.log(diccionario[1]);
 
-*/
+//esto fue el primer intento
 
 $(function(){
     $.get('https://raw.githubusercontent.com/JorgeDuenasLerin/diccionario-espanol-txt/master/0_palabras_todas.txt', function(data){
         diccionario = data.split(',');
         console.log(diccionario);
     });
-});
+}); //este segundo intento apenas empezaba, aprendiendo a usar jquery
+*/

@@ -20,6 +20,9 @@
     <div class="content-box" id="cuerpo">
       <!--canvas-->
       <canvas id="canvas" width="600" height="600"></canvas>
+      <div class="d-flex" style="height: 600px;"> <!--línea vertical-->
+        <div class="vr"></div>
+      </div>
       <ul id="listaPalabras" class="list-group list-group-horizontal">
 <title>PALABRAS</title>
       </ul>
@@ -35,18 +38,25 @@
       6. Mezcla los dados, haciendo click en <strong>START</strong>
       </article>
     </div>
-    </div>
+             <!--start-->
+             <div id= "botones" class="container">
+              <div id="start">
+              <button type="button" class="btn btn-dark" id="start">START</button>
+             </div>
+              <!--reloj-->
+             <div id="reloj" class=" text-wrap" style="width: 6rem;">
+               <span class=" position-relative">
+                 00:00
+               </span>
+             </div>
+             <div id= "listaPalabras">
+              <h2>Palabras</h2>
+              <ul id="lista"></ul>
+                         </div>
+                  </div>
+            </div>
 
-         <!--start-->
-         <div class="container">
-         <div id="start">
-         <button type="button" class="btn btn-dark" id="start">Start</button>
-        </div>
 
-        <div class="container">
-
-        </div>
-      </div>
 
     <!--bootstrap-->
     <script

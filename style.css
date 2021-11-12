@@ -10,6 +10,7 @@
 
 body {
     background-color: #f8f8ff;
+    font-size: 40px;
 }
 
 #canvas {
@@ -22,7 +23,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-right: 500px;
+    margin-right: 50px;
     margin-top: 10px;
 }
 
@@ -34,13 +35,29 @@ body {
 #start > button {
     font-size: 35px;
     border-radius: 8%;
-    margin-left: 275px;
+    margin-left: 50px;
     margin-top: 20px;
 }
 
+#reloj {
+    height: 60px;
+    width: 200px;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 400px;
+}
+
+#reloj > span {
+    font-size: 30px;
+    border-radius: 8%;
+    padding: 5px 20px;
+    vertical-align: middle;
+    text-align: center;
+}
 #cuerpo {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     margin-top: 90px;
     margin-left: 80px;
     margin-right: 10px;
@@ -57,4 +74,14 @@ h2 {
 #texto {
     margin-right: 230px;
     margin-top: 80px;
+}
+
+#botones {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 200px;
+}
+
+#listaPalabras {
+    margin-right: 120px;
 }
