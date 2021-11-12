@@ -73,7 +73,6 @@ h2 {
 
 #texto {
     margin-right: 230px;
-    margin-top: 80px;
 }
 
 #botones {
@@ -84,4 +83,9 @@ h2 {
 
 #listaPalabras {
     margin-right: 120px;
+}
+
+aside {
+    position: absolute;
+    top: 469px; right: 180px;
 }

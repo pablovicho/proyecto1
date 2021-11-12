@@ -196,12 +196,14 @@ function endGame() {
     //cuando termine la cuenta regresiva, esto debe mostrar el score, la lista de palabras que lograste, 
     //y (de ser posible) la lista de palabras posibles con esa configuración.
     countScore(lista);
+    drawScore();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     clearInterval(intervalId);
     reloj = 6;
     console.log(reloj);
     intervalId = null;
     lista = [];
+    
 }
 
 window.onload = (event) => { 
@@ -271,16 +273,28 @@ return score;
 }
 
 
-function drawScore() { //quiero dibujar el score en el DOM, ¿pero dónde? falta invocarla y asignarla a una variable
-
+function drawScore() { //esto dibuja el score en el DOM
+document.querySelector('aside').innerHTML = `SCORE: ${score}`;
 }
 
 function winLose() { // falta invocarla y asignarla
-    return score >= 10 ? "Ganaste!!" : "Perdiste :/"
+    return score >= 10 ? true : false;
+}
+
+function drawWinLose() { //esto dibuja el mensaje de ganaste o perdiste
+if (winLose()) {
+    document.querySelector('win-Lose').innerHTML = `<span>"Ganaste!!"</span>`
+} else {
+    document.querySelector('win-Lose').innerHTML = `<span>"Perdiste :/"</span>`
+}
 }
 
 function drawReloj() {
-    relojHTML.innerHTML = `00:${reloj}`;
+    if (reloj < 10) {
+        relojHTML.innerHTML = `<span class="position-relative" style="color:#FF0000"> 00:0${reloj}</span>`;
+    } else {
+    relojHTML.innerHTML = `<span class="position-relative" style="color:black"> 00:${reloj}</span>`;
+}
 }
 
 //------------------JSON REQUEST-------------------
