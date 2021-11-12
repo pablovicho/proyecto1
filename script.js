@@ -1,11 +1,16 @@
+//
+const script = document.createElement('script');
+script.src = 'https://code.jquery.com/jquery-3.4.1.min.js';
+script.type = 'text/javascript';
+document.getElementsByTagName('head')[0].appendChild(script);
+
 //---------------------CONTADORES Y VARIABLES GLOBALES
 //@import url('')
-const $start = document.querySelector("start"); //el botón de start
-const $canvas = document.querySelector("canvas"); //el canvas
-const $listaPalabras = document.querySelector("listaPalabras");
-const ctx = $canvas.getContext("2d");
-$canvas.height = 600;
-$canvas.width = 600;
+const canvas = document.querySelector("canvas"); //el canvas
+const listaPalabras = document.querySelector("listaPalabras");
+const ctx = canvas.getContext("2d");
+canvas.height = 600;
+canvas.width = 600;
 
 let score = 0; //todavía no tengo función para esto
 let lista = [];
@@ -28,16 +33,16 @@ const mouse = { //Mouse (pos) posiciona el mouse adentro del grid
 
 // getBoundingClientRect -> esta funcion regresa un objecto del DOM (rectangulo) que contiene info del tamaño de algun elemento y su posicion
 // sirve para saber donde se puede mover el mouse dentro del CANVAS y no fuera
-let canvasPosition = $canvas.getBoundingClientRect();
+let canvasPosition = canvas.getBoundingClientRect();
 //El método addEventlistener, es un escuchador que indica al navegador que este atento a la interacción del usuario.
 //Tipo de evento: MouseEvent | UIEvent | Event | ProgressEvent<EventTarget> | ClipboardEvent | AnimationEvent | WheelEvent. ejemplos: mousedown, mouseenter, mouseleave, mousemove, *click*
 
-$canvas.addEventListener('mousemove', function(event){
+canvas.addEventListener('mousemove', function(event){
     mouse.x = event.x - canvasPosition.left; // el mouse accede a las coordinadas del canvas global
     mouse.y = event.y - canvasPosition.top;
 })
 
-$canvas.addEventListener('mouseleave', function(event){ //cuando el mouse sale del canvas: mouseleave ocurre cuando el puntero del mouse se mueve fuera de un elemento.
+canvas.addEventListener('mouseleave', function(event){ //cuando el mouse sale del canvas: mouseleave ocurre cuando el puntero del mouse se mueve fuera de un elemento.
     mouse.y = undefined;                                // regresa a la posicion acual del mouse obj.
     mouse.x = undefined; 
 })
@@ -68,9 +73,9 @@ class Cell {
 
 function createGrid() {
     // El loop entra al canvas por rows en este loop, primero empieza debajo de la linea azul (100px en hight) y 
-    //va iterando 100px en X hasta terminar el $canvas.width y baja de nuevo en 100px (cellSeize)
-    for (let y = 0; y < $canvas.height; y += cellSize) {
-        for (let x = 0; x < $canvas.width; x += cellSize) {
+    //va iterando 100px en X hasta terminar el canvas.width y baja de nuevo en 100px (cellSeize)
+    for (let y = 0; y < canvas.height; y += cellSize) {
+        for (let x = 0; x < canvas.width; x += cellSize) {
             // cada vez que nos movemos horizontalmente en X en 100px (cellSize) se manda al array un nuevo Cell
             //se ponen Cell por todo el canvas en X y Y
             gameGrid.push(new Cell(x,y));
@@ -119,9 +124,9 @@ isTouching(obj) { //esta todavía no hace nada, y es probable que no la necesite
 }
 
 function createDado() {
-    // El loop entra al canvas por rows en este loop, y va iterando 150px en X hasta terminar el $canvas.width y baja de nuevo en 150px (cellSeize)
-    for (let y = 0; y < $canvas.height; y += cellSize) {
-        for (let x = 0; x < $canvas.width; x += cellSize) {   // cada vez que nos movemos horizontalmente en X en 100px (cellSize) se manda al array un nuevo Cell
+    // El loop entra al canvas por rows en este loop, y va iterando 150px en X hasta terminar el canvas.width y baja de nuevo en 150px (cellSeize)
+    for (let y = 0; y < canvas.height; y += cellSize) {
+        for (let x = 0; x < canvas.width; x += cellSize) {   // cada vez que nos movemos horizontalmente en X en 100px (cellSize) se manda al array un nuevo Cell
             dadosArray.push(new Dado(x, y, `${revolver(array).toUpperCase()}`)); //se ponen dados por todo el canvas en X y Y
         }
     }
@@ -145,8 +150,8 @@ class Board {
     constructor() {
         this.x = 0;
 		this.y = 0;
-		this.width = $canvas.width;
-		this.height = $canvas.height;
+		this.width = canvas.width;
+		this.height = canvas.height;
 		this.img = new Image();
         this.img.src = "imagenes/fondo-board.png";
     }
@@ -167,14 +172,13 @@ function start() {
     //esto debe crear un nuevo tablero, una nueva lista, un nuevo score, invocar las funciones de revolver, revolverDados y mezclarDados, e iniciar la cuenta regresiva con finish
     createDado();
 	// 2. Limpiar el canvas
-	ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
 	// 3. Dibujar los elementos    
     drawDado();
     ctx.closePath();
     //checkDice();
     //checkCollitions();
-
 }
 
 function update() { //cada segundo, hace log de reloj y continúa la cuenta regresiva. al terminar, invoca endgame
@@ -184,7 +188,7 @@ function update() { //cada segundo, hace log de reloj y continúa la cuenta regr
     if (reloj === 0) endGame();
 }
 
-document.getElementById('start').onclick = () => { //esto solamente crea la cuenta regresiva e invoca start
+document.getElementById('start').onclick = () => { //esto solamente crea la cuenta regresiva e invoca start desde el botón
     if (intervalId) return;
     start();
     intervalId = setInterval(update, 1000);
@@ -194,7 +198,7 @@ function endGame() {
     //cuando termine la cuenta regresiva, esto debe mostrar el score, la lista de palabras que lograste, 
     //y (de ser posible) la lista de palabras posibles con esa configuración.
     countScore(lista);
-    ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     clearInterval(intervalId);
     reloj = 6;
     console.log(reloj);
@@ -202,7 +206,7 @@ function endGame() {
 }
 
 window.onload = (event) => {
-    loadDiccionario();
+   // loadDiccionario();
     let board = new Board();
 };
 
@@ -213,7 +217,7 @@ function pintaLetra(element) {
 
 //------------------MOUSE EVENTS------------------
 
-$canvas.addEventListener('mousedown', function(){
+canvas.addEventListener('mousedown', function(){
     // Tomaremos la coordenada principal u original del mouse en X y Y
     // supongamos que la posicion del mouse es 250 en X y cellSize = 150 entonces 250 - (150) = 100 
     // Esto es el valor de la posicion de mi Celda en X a la izquierda (son 4 columnas - 600px)
@@ -232,7 +236,7 @@ $canvas.addEventListener('mousedown', function(){
         }
 })
 
-$canvas.addEventListener('mouseup', function(){
+canvas.addEventListener('mouseup', function(){
     if(listaPalabra(palabraArray)) {
         addPalabra(palabraArray);
         palabraArray = [];
@@ -246,8 +250,8 @@ function listaPalabra(palabra) { //esto debe revisar si la palabra está en el d
 
 function addPalabra(palabra) { //esto debe invocar revisarPalabra y listaPalabra. Si pasa el checklist, entonces sumarla a una lista nueva 
 lista.push(palabra.join(""));
-let $nuevaPalabra = palabra.join("");
-$listaPalabras.appendChild($nuevaPalabra); } //debo enlazarlo a cuando se deja de hacer click
+let nuevaPalabra = palabra.join("");
+listaPalabras.appendChild(nuevaPalabra); } //debo enlazarlo a cuando se deja de hacer click
 
 
 function countScore(lista) {
@@ -258,9 +262,9 @@ function countScore(lista) {
 
 let diccionario = new Array();
     
-
+/*
 function loadDiccionario() {
-    import $ from "jquery";
+    import * as $ from require("jquery");
     $.getJSON('question.json', function (data) {
         diccionario = data.palabras;
     }).error(function(){
@@ -270,4 +274,11 @@ function loadDiccionario() {
 
     console.log(diccionario[1]);
 
+*/
 
+$(function(){
+    $.get('https://raw.githubusercontent.com/JorgeDuenasLerin/diccionario-espanol-txt/master/0_palabras_todas.txt', function(data){
+        diccionario = data.split(',');
+        console.log(diccionario);
+    });
+});
