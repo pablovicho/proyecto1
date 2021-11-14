@@ -96,6 +96,9 @@ h2 {
 
 #listaPalabras {
     margin-right: 120px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 aside {

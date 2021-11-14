@@ -251,6 +251,7 @@ class Board {
 function start() {
   //esto debe crear un nuevo tablero, una nueva lista, un nuevo score, invocar las funciones de revolver, revolverDados y mezclarDados, e iniciar la cuenta regresiva con finish
   createDado();
+  //limpiaLista();
 }
 
 function update() {
@@ -279,7 +280,7 @@ function endGame() {
   countScore(lista); //cuenta las palabras de la lista, qué tan largas son, y entonces calcula en score
   drawScore(); //dibuja el score
   clearInterval(intervalId); //limpia el intervalo
-  reloj = 6; //limpia el reloj (lo debo poner en 60 cuando esté listo)
+  reloj = 60; //limpia el reloj (lo debo poner en 60 cuando esté listo)
   intervalId = null;
   lista = [];
   winLose();
@@ -299,24 +300,23 @@ canvas.addEventListener("mouseup", function () {
   // Tomaremos la coordenada principal u original del mouse en X y Y
   // supongamos que la posicion del mouse es 250 en X y cellSize = 150 entonces 250 - (150) = 100
   // Esto es el valor de la posicion de mi Celda en X a la izquierda (son 4 columnas - 600px)
-
+console.log(mouse.x, mouse.y);
   for (let i = 0; i < dadosArray.length; i++) {
     if (dadosArray[i].clicked === false) {
       //<---- Si ya había hecho click en el lugar, NO HAGAS NADA
-      if (
-        mouse.x >= dadosArray[i].x &&
-        mouse.x <= dadosArray[i].x + cellSize &&
-        mouse.y >= dadosArray[i].y &&
-        mouse.y <= dadosArray[i].y + cellSize
+      if ( 
+        mouse.x > dadosArray[i].x &&
+        mouse.x < dadosArray[i].x + cellSize &&
+        mouse.y > dadosArray[i].y &&
+        mouse.y < dadosArray[i].y + cellSize
       ) {
         palabraArray.push(dadosArray[i].letra);
-        console.log(dadosArray[i].letra);
         console.log(palabraArray);
         dadosArray[i].clicked = true; //<---- Ahora sí, marca la celda como ya clickeada
       }
     }
-    if ((dadosArray[i].clicked = true)) {
-      fillStyle = "green";
+    if ((dadosArray[i].clicked == true)) {
+        dadosArray[i].fillStyle = "green"; //<---- Ahora sí, marca la celda como ya clickeada
     } else {
       dadosArray[i].fillStyle = "black";
     }
@@ -330,14 +330,13 @@ document.getElementById("add").onclick = () => {
   }
     palabraArray = [];
     dadosArray.forEach((element) => {
-        dadosArray[element].clicked = false;
+        element.clicked = false;
     });
 }
 
 
 function listaPalabra(palabra) {
   //esto debe revisar si la palabra está en el diccionario Y si no se escribió ya anteriormente.
-  console.log(diccionario.includes(palabra.join("").toLowerCase()));
   if (lista.includes(palabra.join("").toLowerCase())) return false;
   return diccionario.includes(palabra.join("").toLowerCase()) ? true : false; //aquí invertí los valores falso y verdadero, para que sea más intuitivo
 }
@@ -345,7 +344,12 @@ function listaPalabra(palabra) {
 function addPalabra(palabra) {
   //esto debe invocar revisarPalabra y listaPalabra. Si pasa el checklist, entonces sumarla a una lista nueva
   lista.push(palabra.join("").toLowerCase());
-  listaPalabras.appendChild(palabra.join("").toLowerCase());
+  const hija = palabra.join("").toLowerCase();
+  const hijaPalabra = document.createElement("li");
+  hijaPalabra.innerHTML = hija;
+    listaPalabras.appendChild(hijaPalabra);
+    console.log(hijaPalabra);
+  
 } //debo enlazarlo a cuando se deja de hacer click
 
 function countScore(lista) {
@@ -367,8 +371,11 @@ function countScore(lista) {
       case 7:
         score += 5;
         break;
+      case 8 || 9 || 10 || 11 || 12:
+          score += 10;
+          break;
       default:
-        score += 10;
+        break;
     }
   });
   return score;
@@ -400,4 +407,9 @@ function drawReloj() {
   } else {
     relojHTML.innerHTML = `<span class="position-relative" style="color:black"> 00:${reloj}</span>`;
   }
+}
+
+function limpiaLista() {
+    listaPalabras.removeChild(hijaPalabra);
+    score = 0;
 }
