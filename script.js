@@ -257,6 +257,7 @@ function start() {
 function update() {
   //cada segundo, hace log de reloj y continúa la cuenta regresiva. al terminar, invoca endgame
   // 1. Limpiar el canvas
+  //document.getElementById("canvas").style.backgroundImage = none;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   // 2. Dibujar los elementos
   drawDado();

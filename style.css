@@ -17,6 +17,7 @@ body {
     background-image: url("/imagenes/portada.png");
     background-size: cover;
     border-radius: 5%;
+    object-fit: none;
 }
 
 .container {
