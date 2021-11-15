@@ -77,7 +77,7 @@ let array = [
   "m",
   "n",
   "u",
-  "q",
+  "qu",
   "e",
   "e",
   "i",
@@ -231,20 +231,6 @@ function revolver(array) {
 }
 
 //--------------------BOARD---------------------------------
-class Board {
-  constructor() {
-    this.x = 0;
-    this.y = 0;
-    this.width = canvas.width;
-    this.height = canvas.height;
-    this.img = new Image();
-    this.img.src = "imagenes/fondo-board.png";
-  }
-
-  draw() {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-  }
-}
 
 //-------------------------FUNCIONES PRINCIPALES-----------------------------
 
@@ -283,7 +269,8 @@ function endGame() {
   reloj = 60; //limpia el reloj (lo debo poner en 60 cuando esté listo)
   intervalId = null;
   lista = [];
-  winLose();
+  drawWinLose();
+  console.log(canvas);
 }
 
 window.onload = (event) => {
@@ -385,17 +372,9 @@ function winLose() {
 function drawWinLose() {
   //esto dibuja el mensaje de ganaste o perdiste
   if (winLose()) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "black";
-      ctx.font = "40px sans-serif";
-      ctx.drawImage("/imagenes/you-win.png", 0, 0, canvas.width, canvas.height);
-      ctx.fillText("¡Ganaste!", 130, 50);
+      win();
   } else {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "black";
-    ctx.font = "40px sans-serif";
-    ctx.drawImage("/imagenes/you-lose.png", 0, 0, canvas.width, canvas.height);
-    ctx.fillText("Perdiste :/", 130, 50);
+lose();
   }
 }
 
@@ -410,4 +389,16 @@ function drawReloj() {
 function limpiaLista() {
     listaPalabras.removeChild(hijaPalabra);
     score = 0;
+}
+
+function win(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage("imagenes/you-win.png", 0, 0, canvas.width, canvas.height);
+    canvas.setAttribute("class", 'canvas1');
+}
+
+function lose(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage("imagenes/you-lose.png", 0, 0, canvas.width, canvas.height);
+    canvas.setAttribute("class", 'canvas2');
 }

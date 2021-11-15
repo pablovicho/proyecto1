@@ -15,7 +15,6 @@ body {
 
 #canvas {
     background-image: url("/imagenes/portada.png");
-    background-size: cover;
     border-radius: 5%;
     object-fit: none;
 }
@@ -105,4 +104,22 @@ h2 {
 aside {
     position: absolute;
     top: 469px; right: 180px;
+}
+
+.canvas0 {
+    background-image: url("/imagenes/portada.png");
+    border-radius: 5%;
+    object-fit: none;
+}
+
+.canvas1 {
+    background-image: url("/imagenes/you-win.png");
+    border-radius: 5%;
+    object-fit: none;
+}
+
+.canvas2 {
+    background-image: url("/imagenes/you-lose.png");
+    border-radius: 5%;
+    object-fit: none;
 }
