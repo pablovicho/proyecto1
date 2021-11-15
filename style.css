@@ -14,7 +14,6 @@ body {
 }
 
 #canvas {
-    background-image: url("/imagenes/portada.png");
     border-radius: 5%;
     object-fit: none;
 }
@@ -112,7 +111,7 @@ aside {
     object-fit: none;
 }
 
-.canvas1 {
+.canvas1 { /* estos tres canvas me permitirían cambiar de clase y entonces cambiar de imagen de fondo*/
     background-image: url("/imagenes/you-win.png");
     border-radius: 5%;
     object-fit: none;

@@ -232,6 +232,21 @@ function revolver(array) {
 
 //--------------------BOARD---------------------------------
 
+class Board {
+	constructor(src) {
+		this.x = 0;
+		this.y = 0;
+		this.width = canvas.width;
+		this.height = canvas.height;
+		this.image = new Image();
+		this.image.src = src;
+	}
+
+	draw() {
+		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+	}
+}
+
 //-------------------------FUNCIONES PRINCIPALES-----------------------------
 
 function start() {
@@ -392,13 +407,15 @@ function limpiaLista() {
 }
 
 function win(){
+    let board = new Board("imagenes/you-win.png");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage("imagenes/you-win.png", 0, 0, canvas.width, canvas.height);
+    board.draw();
     canvas.setAttribute("class", 'canvas1');
 }
 
 function lose(){
+    let board = new Board("imagenes/you-lose.png");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage("imagenes/you-lose.png", 0, 0, canvas.width, canvas.height);
+    board.draw();
     canvas.setAttribute("class", 'canvas2');
 }
