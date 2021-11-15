@@ -112,7 +112,7 @@ let array = [
 ];
 
 const cellSize = 150;
-const dadosArray = []; //Un arreglo que contiene todos los dados que se van da dibujar
+let dadosArray = []; //Un arreglo que contiene todos los dados que se van da dibujar
 const gameGrid = []; // Un arreglo que contiene a todos los cuadros donde están los dados
 let palabraArray = []; //un arreglo donde se van a ir empujando las letras donde se hace click
 const cellGap = 5; //esto es lo que evitaría la colisión, y así permitir movimientos diagonales
@@ -243,8 +243,10 @@ class Board {
 
 function start() {
   //esto debe crear un nuevo tablero, una nueva lista, un nuevo score, invocar las funciones de revolver, revolverDados y mezclarDados, e iniciar la cuenta regresiva con finish
+  dadosArray = [];
   createDado();
   removeChilds(listaPalabras);
+  document.querySelector("aside").innerHTML = 'SCORE: 0';
 }
 
 function update() {
@@ -283,10 +285,6 @@ function endGame() {
 window.onload = (event) => {
   // loadDiccionario(); aquí buscaría cargar el diccionario desde JSON
 };
-
-function pintaLetra(element) {
-  //canvas = "0f4c5c"  //¿esto está bien planteado? quiero que al hacer click, la letra cambie de color
-}
 
 //------------------MOUSE EVENTS------------------
 
@@ -329,7 +327,6 @@ document.getElementById("add").onclick = () => {
     });
 }
 
-
 function listaPalabra(palabra) {
   //esto debe revisar si la palabra está en el diccionario Y si no se escribió ya anteriormente.
   if (lista.includes(palabra.join("").toLowerCase())) return false;
@@ -344,11 +341,9 @@ function addPalabra(palabra) {
   hijaPalabra.innerHTML = hija;
     listaPalabras.appendChild(hijaPalabra);
     console.log(hijaPalabra);
-  
-} //debo enlazarlo a cuando se deja de hacer click
+}
 
-function countScore(lista) {
-  //esto cuenta el largo de cada palabra del array lista, y suma puntos al score. falta invocarla
+function countScore(lista) { //esto cuenta el largo de cada palabra del array lista, y suma puntos al score.
   lista.forEach((elemento) => {
     let length = elemento.length;
     if(length === 3 || length === 4) {
@@ -378,11 +373,8 @@ function winLose() {
 
 function drawWinLose() {
   //esto dibuja el mensaje de ganaste o perdiste
-  if (winLose()) {
-      win();
-  } else {
-lose();
-  }
+  if (winLose()) win();
+   else {lose();}
 }
 
 function drawReloj() {
@@ -412,7 +404,7 @@ function lose(){
     canvas.setAttribute("class", 'canvas2');
 }
 
-function removeChilds (parent) {
+function removeChilds (parent) { //esto elimina los dados, para que no se acumulen a la segunda vuelta
     while (parent.lastChild) {
         parent.removeChild(parent.lastChild);
     }
