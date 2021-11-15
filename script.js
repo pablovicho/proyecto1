@@ -255,16 +255,15 @@ function start() {
 }
 
 function update() {
+    reloj--;
   //cada segundo, hace log de reloj y continúa la cuenta regresiva. al terminar, invoca endgame
   // 1. Limpiar el canvas
-  //document.getElementById("canvas").style.backgroundImage = none;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   // 2. Dibujar los elementos
   drawDado();
   cellGrids();
   drawReloj();
   //3. Invocar endgame
-  reloj--;
   if (reloj <= 0) endGame();
 }
 
@@ -326,6 +325,7 @@ console.log(mouse.x, mouse.y);
 
 document.getElementById("add").onclick = () => {
   console.log(palabraArray);
+  //document.getElementById("canvas").style.backgroundImage = none;
   if (listaPalabra(palabraArray)) { //esto revisa si la palabra está en el diccionario y si no está en la lista
     addPalabra(palabraArray);
   }
@@ -357,26 +357,16 @@ function countScore(lista) {
   //esto cuenta el largo de cada palabra del array lista, y suma puntos al score. falta invocarla
   lista.forEach((elemento) => {
     let length = elemento.length;
-    switch (length) {
-      case 1 || 2:
-        break;
-      case 3 || 4:
+    if(length === 3 || length === 4) {
         score += 1;
-        break;
-      case 5:
+    } else if (length === 5) {
         score += 2;
-        break;
-      case 6:
-        score += 3;
-        break;
-      case 7:
+    } else if (length === 6) {
+        score += 3
+    } else if (length === 7) {
         score += 5;
-        break;
-      case 8 || 9 || 10 || 11 || 12:
-          score += 10;
-          break;
-      default:
-        break;
+    } else if (length > 7) {
+        score += 10
     }
   });
   return score;
@@ -395,10 +385,17 @@ function winLose() {
 function drawWinLose() {
   //esto dibuja el mensaje de ganaste o perdiste
   if (winLose()) {
-    document.querySelector("win-Lose").innerHTML = `<div id="win-Lose">
-    <span>"Ganaste!!</span></div>`;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "black";
+      ctx.font = "40px sans-serif";
+      ctx.drawImage("/imagenes/you-win.png", 0, 0, canvas.width, canvas.height);
+      ctx.fillText("¡Ganaste!", 130, 50);
   } else {
-    document.querySelector("win-Lose").innerHTML = `<div id="win-Lose"><span>"Perdiste :/"</span></div>`;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+    ctx.font = "40px sans-serif";
+    ctx.drawImage("/imagenes/you-lose.png", 0, 0, canvas.width, canvas.height);
+    ctx.fillText("Perdiste :/", 130, 50);
   }
 }
 
