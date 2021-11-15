@@ -190,28 +190,20 @@ class Dado {
   draw() {
     ctx.drawImage(this.img, this.x, this.y, 150, 150);
     ctx.font = "bold 50px Indie-Flower-Regular";
+    if (this.clicked) {this.fillStyle = "green"}
+    else {this.fillStyle = "black"};
     if (this.letra) {
       ctx.fillText(`${this.letra}`, this.xLetra, this.yLetra);
     } else {
       ctx.fillText("", this.xLetra, this.yLetra);
     }
   }
-
-  isTouching(obj) {
-    //esta todavía no hace nada, y es probable que no la necesite si me sirve el event mouseup
-    return (
-      this.x < obj.x + obj.width &&
-      this.x + this.width > obj.x &&
-      this.y < obj.y + obj.height &&
-      this.y + this.height > obj.y
-    );
-  }
 }
 
 function createDado() {
   // El loop entra al canvas por rows en este loop, y va iterando 150px en X hasta terminar el canvas.width y baja de nuevo en 150px (cellSeize)
-  for (let y = 0; y < canvas.height; y += cellSize) {
-    for (let x = 0; x < canvas.width; x += cellSize) {
+  for (let x = 0; x < canvas.width; x += cellSize) {
+    for (let y = 0; y < canvas.height; y += cellSize) {
       // cada vez que nos movemos horizontalmente en X en 100px (cellSize) se manda al array un nuevo Cell
       dadosArray.push(new Dado(x, y, `${revolver(array).toUpperCase()}`)); //se ponen dados por todo el canvas en X y Y
     }
@@ -219,7 +211,7 @@ function createDado() {
 }
 
 function drawDado() {
-  // Loop que itera en el array global que se va a ir llenando en mi event click de Crear nuevo dogeKiller
+  // Loop que itera en el array global que se va a ir llenando
   for (let i = 0; i < dadosArray.length; i++) {
     dadosArray[i].draw();
   }
@@ -252,7 +244,7 @@ class Board {
 function start() {
   //esto debe crear un nuevo tablero, una nueva lista, un nuevo score, invocar las funciones de revolver, revolverDados y mezclarDados, e iniciar la cuenta regresiva con finish
   createDado();
-  //limpiaLista();
+  removeChilds(listaPalabras);
 }
 
 function update() {
@@ -419,3 +411,9 @@ function lose(){
     board.draw();
     canvas.setAttribute("class", 'canvas2');
 }
+
+function removeChilds (parent) {
+    while (parent.lastChild) {
+        parent.removeChild(parent.lastChild);
+    }
+};
