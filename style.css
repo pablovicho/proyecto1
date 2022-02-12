@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 @font-face {
@@ -7,10 +11,13 @@
     font-display: swap;
     src: local('IndieFlower-Regular'), url(/fonts/IndieFlower-Regular.ttf) format('ttf');
   }
-
+  
 body {
     background-color: #f8f8ff;
     font-size: 40px;
+    background-image: url("./imagenes/paper-letter-background.jpg");
+    background-repeat:no-repeat;
+    background-size: cover 
 }
 
 #canvas {
@@ -73,6 +80,7 @@ body {
     margin-top: 90px;
     margin-left: 80px;
     margin-right: 10px;
+    max-height: 600px;
 }
 
 article {
@@ -121,4 +129,8 @@ aside {
     background-image: url("/imagenes/you-lose.png");
     border-radius: 5%;
     object-fit: none;
+}
+
+.canvas3 {
+    background-image: none;
 }
