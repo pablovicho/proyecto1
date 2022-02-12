@@ -5,10 +5,11 @@ import lose from "./functions/lose.js"
 import win from "./functions/win.js"
 import countScore from "./functions/countScore.js"
 import palabraExiste from "./functions/palabraExiste.js"
+import palabraEnLista from "./functions/palabraEnLista.js"
 import addPalabra from "./functions/addPalabra.js"
 import Dado from "./classes/Dado.js"
 import array from "./array.js"
-import * as diccionario from "./diccionario.js"
+// import * as diccionario from "./diccionario.js"
 
 
 //---------------------CONTADORES Y VARIABLES GLOBALES
@@ -100,6 +101,7 @@ function endGame() {
   clearInterval(intervalId); //limpia el intervalo
   reloj = 60; //limpia el reloj (lo debo poner en 60 cuando esté listo)
   intervalId = null;
+  console.log(score)
   dibujaWinLose();
 }
 
@@ -131,9 +133,16 @@ canvas.onclick = () => {
 }
 
 document.getElementById("add").onclick = () => {
-  if (palabraExiste(palabraArray, lista, diccionario) && (palabraArray.length > 2)) { //esto revisa si la palabra está en el diccionario y si no está en la lista
-    addPalabra(palabraArray, lista, countScore, dibujaScore, listaPalabrasDOM);
+  if (palabraExiste(palabraArray, diccionario) && palabraEnLista(palabraArray, lista) && (palabraArray.length > 2)) { 
+    //esto revisa si la palabra está en el diccionario y si no está en la lista
+    const palabraString = palabraArray.join("").toLowerCase()
+    addPalabra(palabraString, lista);
+    countScore(palabraString, score); //cuenta la longitud de la palabra, y entonces calcula el score
+    console.log(score)
+    dibujaScore(); //dibuja el score
+    dibujaPalabras(palabraString);
   }
+
     palabraArray = [];
     dadosArray.forEach((element) => {
         element.clicked = false;
@@ -146,9 +155,15 @@ function dibujaScore() {
   document.querySelector("aside").innerHTML = `SCORE: ${score}`;
 }
 
+function dibujaPalabras(palabraString) {
+  let hijaPalabra = document.createElement("li");
+  hijaPalabra.innerHTML = palabraString;
+  listaPalabrasDOM.appendChild(hijaPalabra);
+}
+
 function dibujaWinLose() {
   //esto dibuja el mensaje de ganaste o perdiste
-  score >= 10 ? win() : lose()
+  score >= 8 ? win() : lose()
 }
 
 function dibujaReloj() {
