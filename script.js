@@ -80,6 +80,8 @@ function start() {
   crearDado(dadosArray);
   eliminaDados(listaPalabrasDOM);
   document.querySelector("aside").innerHTML = 'SCORE: 0';
+  let add = document.getElementById("add");
+  add.classList.remove("hidden");
 }
 
 function update() {
@@ -102,6 +104,7 @@ function endGame() {
   intervalId = null;
   console.log(score)
   dibujaWinLose();
+  document.getElementById("add").classList.add("hidden");
 }
 
 //------------------MOUSE EVENTS------------------

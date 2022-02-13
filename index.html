@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Boggle</title>
-    <!-- <link href="/dist/output.css" rel="stylesheet"> -->
+    <link href="/dist/output.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -31,22 +31,25 @@
         </article>
         <br />
         <h2>PALABRAS</h2>
-        <ul id="listaPalabras" class="list-group list-group-horizontal"></ul>
+        <div class="flex-wrap">
+          <ul id="listaPalabras" class="flex-auto"></ul>
+        </div>
+        
         <aside>SCORE:</aside>
       </div>
       <!--start-->
       <div id="botones" class="container">
-        <div id="start">
+        <div id="start" style="margin-right: 20px">
           <button type="button" id="start">START</button>
         </div>
-        <div id="add">
+        <div id="add" class="hidden">
           <button type="button" id="add">
             Add word
           </button>
         </div>
         <!--reloj-->
         <div id="reloj" class="text-wrap" style="width: 6rem">
-          <span class="position-relative"> 00:00 </span>
+          <span class="position-absolute"> 00:00 </span>
         </div>
         <div id="win-Lose">
           <span></span>
