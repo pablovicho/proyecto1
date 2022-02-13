@@ -3,13 +3,12 @@
 import eliminaDados from "./functions/eliminaDados.js"
 import lose from "./functions/lose.js"
 import win from "./functions/win.js"
-import countScore from "./functions/countScore.js"
+// import countScore from "./functions/countScore.js"
 import palabraExiste from "./functions/palabraExiste.js"
 import palabraEnLista from "./functions/palabraEnLista.js"
 import addPalabra from "./functions/addPalabra.js"
 import Dado from "./classes/Dado.js"
 import array from "./array.js"
-// import * as diccionario from "./diccionario.js"
 
 
 //---------------------CONTADORES Y VARIABLES GLOBALES
@@ -137,8 +136,7 @@ document.getElementById("add").onclick = () => {
     //esto revisa si la palabra está en el diccionario y si no está en la lista
     const palabraString = palabraArray.join("").toLowerCase()
     addPalabra(palabraString, lista);
-    countScore(palabraString, score); //cuenta la longitud de la palabra, y entonces calcula el score
-    console.log(score)
+    countScore(palabraString); //cuenta la longitud de la palabra, y entonces calcula el score
     dibujaScore(); //dibuja el score
     dibujaPalabras(palabraString);
   }
@@ -171,5 +169,19 @@ function dibujaReloj() {
     relojHTML.innerHTML = `<span class="position-relative" style="color:#FF0000"> 00:0${reloj}</span>`;
   } else {
     relojHTML.innerHTML = `<span class="position-relative" style="color:black"> 00:${reloj}</span>`;
+  }
+}
+
+
+function countScore(palabra) { //esto cuenta el largo de cada palabra del array lista, y suma puntos al score.
+    
+  const length = palabra.length;
+
+  if        (length === 3)  {score ++
+  } else if (length === 4)  {score ++
+  } else if (length === 5)  {score += 2
+  } else if (length === 6)  {score += 3
+  } else if (length === 7)  {score += 5
+  } else if (length  >  7)  {score += 10
   }
 }
